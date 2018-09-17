@@ -6,7 +6,7 @@ const remarkReact = require('remark-react')
 
 const markdownComponents = require('./markdownComponents')
 
-const heading = Comp => props => {
+const heading = (Comp: any) => (props: any) => {
   return (
     React.createElement(Comp, props,
       React.createElement('a', {
@@ -22,9 +22,9 @@ const heading = Comp => props => {
   )
 }
 
-const relativize = href => /\.md$/.test(href) ? href.replace(/\.md$/, '/') : href
+const relativize = (href: string) => /\.md$/.test(href) ? href.replace(/\.md$/, '/') : href
 
-const link = Comp => props => (
+const link = (Comp: any) => (props: any) => (
   React.createElement(Comp, Object.assign({}, props, {
     href: relativize(props.href)
   }))
@@ -53,7 +53,7 @@ class Markdown extends React.Component {
   constructor () {
     super()
 
-    this.mapScope = scope => {
+    this.mapScope = (scope: any) => {
       const comps = {
         h1: heading(scope.Title || scope.Heading || scope.H1),
         h2: heading(scope.Heading || scope.H2),
@@ -70,7 +70,7 @@ class Markdown extends React.Component {
       return comps
     }
 
-    this.applyProps = scope => {
+    this.applyProps = (scope: any) => {
       const { options = {} } = this.props
       const props = Object.assign({}, defaultProps, options.markdownProps)
       Object.keys(props).forEach(key => {
@@ -108,4 +108,4 @@ Markdown.propTypes = {
   scope: PropTypes.object
 }
 
-module.exports = Markdown
+export default Markdown

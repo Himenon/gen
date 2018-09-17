@@ -1,8 +1,6 @@
-const system = require('styled-system')
-const styled = require('styled-components').default
-const glamorous = require('glamorous').default
-const babel = require('babel-standalone')
-const transformJSX = require('babel-plugin-transform-react-jsx')
+import * as system from 'styled-system'
+import styled from 'styled-components'
+import * as glamorous from 'glamorous'
 
 const { toComponent } = require('./jsx')
 
@@ -42,18 +40,18 @@ const componentCreators = {
   }
 }
 
-componentCreators.default = componentCreators['styled-components']
+export default componentCreators['styled-components']
 
-const createScope = (imports, lib) => imports
-  .map(key => ({
+const createScope = (imports: any, lib: any) => imports
+  .map( (key: string) => ({
     key,
     value: lib[key]
   }))
-  .reduce((a, b) => Object.assign(a, {
+  .reduce((a: any, b: any) => Object.assign(a, {
     [b.key]: b.value
   }), {})
 
-const createComposite = (comp, lib) => {
+const createComposite = (comp: any, lib: any) => {
   // todo npm/local modules scope
   const scope = createScope(comp.imports, lib)
   const Comp = toComponent(comp.jsx, scope)
@@ -67,7 +65,7 @@ const defaultFuncs = [
   'color'
 ]
 
-const getFunctions = funcs => [
+const getFunctions = (funcs: any) => [
   ...defaultFuncs,
   ...funcs
 ].map(key => system[key])
@@ -83,7 +81,7 @@ const mergeComponents = create => (a, comp) =>
     [comp.name]: create(comp, a)
   }, {})
 
-const createComponent = opts => (comp, lib) => {
+const createComponent = (opts: any) => (comp: any, lib: any) => {
   if (isExternal(comp)) return null
   if (isComposite(comp)) return createComposite(comp, lib)
   if (!comp.name || !comp.type || !comp.style) return null
@@ -94,7 +92,7 @@ const createComponent = opts => (comp, lib) => {
   return sx(comp, lib)
 }
 
-const createComponents = (config = [], opts = {}) => {
+export const createComponents = (config = [], opts = {}) => {
   const base = config.filter(isBase)
   const extensions = config.filter(isExtension)
   const composites = config.filter(isComposite)
@@ -113,5 +111,3 @@ const createComponents = (config = [], opts = {}) => {
 
   return components
 }
-
-module.exports = createComponents

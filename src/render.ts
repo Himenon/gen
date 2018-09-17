@@ -1,19 +1,19 @@
-const React = require('react')
-const {
+import * as React from 'react'
+import {
   renderToStaticMarkup,
   renderToString
-} = require('react-dom/server')
-const SC = require('styled-components')
-const glamorous = require('glamorous')
-const glamor = require('glamor/server')
-const dot = require('dot-prop')
-const webfont = require('@compositor/webfont')
+} from 'react-dom/server'
+import * as SC from 'styled-components'
+import * as glamorous from 'glamorous'
+import * as glamor from 'glamor/server'
+import * as dot from 'dot-prop'
+import * as webfont from '@compositor/webfont'
 
-const createComponents = require('./createComponents')
-const { toComponent } = require('./jsx')
-const primitives = require('./primitives')
-const createHTML = require('./createHTML')
-const Markdown = require('./Markdown')
+import * as createComponents from './createComponents'
+import { toComponent } from './jsx'
+import primitives from './primitives'
+import createHTML from './createHTML'
+import Markdown from './Markdown'
 
 const h = React.createElement
 
@@ -25,7 +25,7 @@ const themeProviders = {
 themeProviders.default = themeProviders['styled-components']
 
 const cssCreators = {
-  'styled-components': (Component, props) => {
+  'styled-components': (Component: any, props: any) => {
     const sheet = new SC.ServerStyleSheet()
     renderToStaticMarkup(
       sheet.collectStyles(
@@ -35,7 +35,7 @@ const cssCreators = {
     const tags = sheet.getStyleTags()
     return tags
   },
-  glamorous: (Component, props) => {
+  glamorous: (Component: any, props: any) => {
     const { css } = glamor.renderStatic(() => (
       renderToString(
         React.createElement(Component, props)
@@ -67,7 +67,7 @@ const getLayout = (pages = [], data, scope) => {
   }
 }
 
-const renderPage = (scope, opts) => page => {
+const renderPage = (scope: any, opts: any) => (page: any) => {
   const library = opts.library
   const Provider = themeProviders[library] || themeProviders.default
   const getCSS = cssCreators[library] || cssCreators.default
@@ -147,4 +147,5 @@ const render = async ({
   return rendered
 }
 
-module.exports = render
+export { render }
+

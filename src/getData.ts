@@ -1,13 +1,12 @@
-const fs = require('fs')
-const path = require('path')
-const { promisify } = require('util')
-const loadJSON = require('load-json-file')
-const matter = require('gray-matter')
+import * as fs from 'fs'
+import * as path from 'path'
+import { promisify } from 'util'
+import * as loadJSON from 'load-json-file'
+import * as matter from 'gray-matter'
 
 const readdir = promisify(fs.readdir)
-const readFile = promisify(fs.readFile)
 
-const getContent = async dirname => {
+export const getContent = async (dirname: string) => {
   let theme = {}
   let lab = { components: [] }
   try {
@@ -40,7 +39,7 @@ const getContent = async dirname => {
   }
 }
 
-const getPage = dirname => async filename => {
+const getPage = (dirname: string) => async (filename: string) => {
   const ext = path.extname(filename)
   const name = path.basename(filename, ext)
   // const raw = await readFile(path.join(dirname, filename), 'utf8')
@@ -57,14 +56,12 @@ const getPage = dirname => async filename => {
   }
 }
 
-const getLayout = pages => page => {
+const getLayout = (pages: any) => (page: any) => {
   if (page.ext !== '.md') return page
   if (!page.data.layout) return page
-  const layout = pages.find(p => p.name === page.data.layout)
+  const layout = pages.find((p: any) => p.name === page.data.layout)
   if (!layout) return page
   page.data = Object.assign({}, layout.data, page.data)
   page.layoutJSX = layout.content
   return page
 }
-
-module.exports = getContent

@@ -1,6 +1,6 @@
 const { theme } = require('styled-system')
 
-module.exports = [
+export default [
   {
     name: 'Box',
     type: 'div',
@@ -26,7 +26,7 @@ module.exports = [
     name: 'Grid',
     type: 'div',
     props: {},
-    style: props => ({
+    style: (props: any) => ({
       display: 'flex',
       flexWrap: 'wrap',
       // disable defaults from dxs
@@ -93,7 +93,7 @@ module.exports = [
     name: 'Font',
     type: 'div',
     props: {},
-    style: props => ({
+    style: (props: any) => ({
       fontFamily: theme('fonts.0', 'sans-serif')(props),
       lineHeight: theme('lineHeight', 1.5)(props),
       color: theme('textColor')(props)

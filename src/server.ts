@@ -1,23 +1,23 @@
-const fs = require('fs')
-const http = require('http')
-const url = require('url')
-const path = require('path')
+import * as fs from 'fs'
+import * as http from 'http'
+import * as url from 'url'
+import * as path from 'path'
 
-const React = require('react')
-const chokidar = require('chokidar')
-const portfinder = require('portfinder')
-const WebSocket = require('ws')
+import * as React from 'react'
+import * as chokidar from 'chokidar'
+import * as portfinder from 'portfinder'
+import * as WebSocket from 'ws'
 
-const getData = require('./getData')
-const render = require('./render')
+import {getContent as getData} from './getData'
+import { render } from './render'
 
-const getPages = async (dirname, opts) => {
-  const data = await getData(dirname, opts)
+const getPages = async (dirname: string, opts: any) => {
+  const data = await getData(dirname)
   const pages = await render(data, opts)
   return pages
 }
 
-const start = async (dirname, opts) => {
+const start = async (dirname: string, opts: any) => {
   if (opts.port) {
     portfinder.basePort = parseInt(opts.port)
   }
@@ -25,7 +25,7 @@ const start = async (dirname, opts) => {
   portfinder.basePort = port + 2
   const socketPort = await portfinder.getPortPromise()
 
-  let socket
+  let socket: any
   let pages = await getPages(dirname, opts)
 
   const watcher = chokidar.watch(dirname, {
@@ -36,7 +36,7 @@ const start = async (dirname, opts) => {
 
   const socketServer = new WebSocket.Server({ port: socketPort })
 
-  socketServer.on('connection', res => {
+  socketServer.on('connection', (res: WebSocket) => {
     socket = res
   })
 
@@ -46,7 +46,7 @@ const start = async (dirname, opts) => {
     socket.send(JSON.stringify({ reload: true }))
   }
 
-  watcher.on('change', async filename => {
+  watcher.on('change', async (filename: string) => {
     if (!socket) return
     const base = path.basename(filename)
     const ext = path.extname(base)
@@ -55,9 +55,9 @@ const start = async (dirname, opts) => {
     update()
   })
 
-  const app = http.createServer((req, res) => {
+  const app = http.createServer((req: any, res: any) => {
     const { pathname } = url.parse(req.url)
-    const filepath = path.join(dirname, pathname)
+    const filepath = path.join(dirname, pathname as string)
 
     // serve local images and files
     if (fs.existsSync(filepath) && fs.statSync(filepath).isFile()) {
@@ -65,8 +65,8 @@ const start = async (dirname, opts) => {
       return
     }
 
-    const name = pathname === '/' ? 'index' : pathname.replace(/^\//, '').replace(/\/$/, '')
-    const page = pages.find(page => page.name === name)
+    const name = pathname === '/' ? 'index' : (pathname as string).replace(/^\//, '').replace(/\/$/, '')
+    const page = pages.find((page: any) => page.name === name)
     if (!page) {
       res.write('page not found: ' + pathname)
       res.end()
@@ -86,7 +86,7 @@ const start = async (dirname, opts) => {
   }
 }
 
-const script = (port) => `<script type='text/javascript'>
+const script = (port: number) => `<script type='text/javascript'>
 const socket = new WebSocket('ws://localhost:${port}')
 socket.onmessage = msg => {
   const data = JSON.parse(msg.data)
@@ -96,4 +96,4 @@ socket.onmessage = msg => {
 }
 </script>`
 
-module.exports = start
+export { start }

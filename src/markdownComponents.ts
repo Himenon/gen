@@ -2,7 +2,7 @@ const createComponents = require('./createComponents')
 
 const gray = 'rgba(0, 0, 0, .125)'
 
-module.exports = opts => createComponents([
+export const markdownComponents = (opts: any) => createComponents([
   {
     name: 'Title',
     type: 'h1',
