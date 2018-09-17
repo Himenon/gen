@@ -27,4 +27,4 @@ const writePages = async (pages: any, opts: any) => {
   return pages
 }
 
-module.exports = writePages
+export { writePages }

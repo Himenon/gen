@@ -1,8 +1,24 @@
 import * as system from 'styled-system'
 import styled from 'styled-components'
-import * as glamorous from 'glamorous'
+import glamorous from 'glamorous'
 
 const { toComponent } = require('./jsx')
+
+export interface Options {
+  name: string;
+  type: string;
+  style: string;
+  props: string;
+  system: any[];
+}
+
+export interface GlamorousOptions {
+  name: string
+  type: string
+  style: any
+  props: any
+  system: any[]
+}
 
 const componentCreators = {
   'styled-components': ({
@@ -11,10 +27,10 @@ const componentCreators = {
     style,
     props,
     system = [],
-  }, lib) => {
+  }: Options, lib: any) => {
     const tag = lib[type] || type
     const funcs = getFunctions(system)
-    const Comp = styled(tag)([], style, ...funcs)
+    const Comp = styled(tag)(``, style, ...funcs)
 
     Comp.defaultProps = props
     Comp.displayName = name
@@ -27,7 +43,7 @@ const componentCreators = {
     style,
     props,
     system = [],
-  }, lib) => {
+  }: GlamorousOptions, lib: any) => {
     // todo: DRY up
     const tag = lib[type] || type
     const funcs = getFunctions(system)
@@ -40,7 +56,7 @@ const componentCreators = {
   }
 }
 
-export default componentCreators['styled-components']
+componentCreators.default = componentCreators['styled-components']
 
 const createScope = (imports: any, lib: any) => imports
   .map( (key: string) => ({
@@ -65,18 +81,25 @@ const defaultFuncs = [
   'color'
 ]
 
+export type MyType = { type: string };
+export interface CompositeType {
+  type: string
+  imports: any
+  jsx: JSX.Element
+}
+
 const getFunctions = (funcs: any) => [
   ...defaultFuncs,
   ...funcs
 ].map(key => system[key])
   .filter(func => typeof func === 'function')
 
-const isBase = ({ type }) => type && /[a-z]/.test(type)
-const isExtension = ({ type }) => type && /[A-Z]/.test(type)
-const isComposite = ({ type, imports, jsx }) => !type && imports && jsx
-const isExternal = ({ external }) => external
+const isBase = ({ type }: MyType) => type && /[a-z]/.test(type)
+const isExtension = ({ type }: MyType) => type && /[A-Z]/.test(type)
+const isComposite = ({ type, imports, jsx }: CompositeType) => !type && imports && jsx
+const isExternal = ({ external }: { external: any }) => external
 
-const mergeComponents = create => (a, comp) =>
+const mergeComponents = (create: any) => (a: any, comp: any) =>
   Object.assign(a, {
     [comp.name]: create(comp, a)
   }, {})

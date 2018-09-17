@@ -1,9 +1,24 @@
+export interface IData {
+  title?: string
+  og?: string
+  twitter?: string
+  scripts?: any
+  stylesheets?: string
+}
+
+export interface ICreateHTML {
+  data: IData
+  css: string
+  fontLinks: string
+  body: string
+}
+
 export default ({
   data = {},
   css = '',
   fontLinks = '',
   body = ''
-}) => {
+}: ICreateHTML) => {
   const meta = getMeta(data)
 
   return [
@@ -28,10 +43,10 @@ export default ({
   .join('')
 }
 
-const getMeta = data => (key, name) =>
+const getMeta = (data: any) => (key: string, name?: string) =>
   data[key] ? `<meta name='${name || key}' content='${data[key]}'>` : ''
 
-const getStylesheets = stylesheets => Array.isArray(stylesheets)
+const getStylesheets = (stylesheets: any) => Array.isArray(stylesheets)
   ? stylesheets.map(href => `<link rel='stylesheet' href='${href}'>`)
   : ''
 
@@ -43,7 +58,7 @@ const getTwitterCard = (twitter = {}) => Object.keys(twitter || {})
   .map(key => getMeta(twitter)(key, 'twitter:' + key))
   .join('')
 
-const getScripts = scripts => Array.isArray(scripts)
+const getScripts = (scripts: any) => Array.isArray(scripts)
   ? scripts.map(script => `<script>${script}</script>`)
   : ''
 

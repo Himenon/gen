@@ -65,3 +65,5 @@ const getLayout = (pages: any) => (page: any) => {
   page.layoutJSX = layout.content
   return page
 }
+
+export { getContent as getData }
