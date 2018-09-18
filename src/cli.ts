@@ -11,21 +11,14 @@ import * as dot from 'dot-prop'
 const pkg = require('../package.json')
 require('update-notifier')({ pkg }).notify()
 
-import {
-  getData,
-  render,
-  writePages,
-  server,
-} from './index'
+import { getData, render, writePages, server } from './index'
 
 const log = (...msgs: any[]) => {
-  console.log(
-    chalk.black.bgCyan(' gen '),
-    chalk.cyan(...msgs)
-  )
+  console.log(chalk.black.bgCyan(' gen '), chalk.cyan(...msgs))
 }
 
-const cli = meow(`
+const cli = meow(
+  `
   Usage:
     $ gen dirname
 
@@ -34,33 +27,33 @@ const cli = meow(`
     --dev, -D       Start development server
     --port, -p      Set port for development server
     --open, -o      Open development server in default browser
-`, {
-  flags: {
-    outDir: {
-      type: 'string',
-      alias: 'd'
+`,
+  {
+    flags: {
+      outDir: {
+        type: 'string',
+        alias: 'd',
+      },
+      dev: {
+        type: 'boolean',
+        alias: 'D',
+      },
+      port: {
+        type: 'string',
+        alias: 'p',
+      },
+      open: {
+        type: 'boolean',
+        alias: 'o',
+      },
     },
-    dev: {
-      type: 'boolean',
-      alias: 'D'
-    },
-    port: {
-      type: 'string',
-      alias: 'p'
-    },
-    open: {
-      type: 'boolean',
-      alias: 'o'
-    }
-  }
-})
+  },
+)
 
-const [
-  dirname = process.cwd()
-] = cli.input
-const userPkg = readPkgUp.sync({cwd: dirname}) || {}
+const [dirname = process.cwd()] = cli.input
+const userPkg = readPkgUp.sync({ cwd: dirname }) || {}
 const opts = Object.assign({}, dot.get(userPkg, 'pkg.gen'), cli.flags, {
-  outDir: path.join(process.cwd(), cli.flags.outDir || '')
+  outDir: path.join(process.cwd(), cli.flags.outDir || ''),
 })
 
 const create = async (dirname: string, opts: any) => {
@@ -76,7 +69,7 @@ if (opts.dev) {
   log('starting dev server')
   server(dirname, opts)
     .then((srv: any) => {
-      const { port } = srv.address() || {} as { port: number }
+      const { port } = srv.address() || ({} as { port: number })
       log(`listening on port: ${port}`)
       const url = `http://localhost:${port}`
       if (opts.open) {

@@ -1,4 +1,4 @@
-import { createComponents } from './createComponents';
+import { createComponents } from './createComponents'
 
 const gray = 'rgba(0, 0, 0, .125)'
 
