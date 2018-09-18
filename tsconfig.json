@@ -4,7 +4,7 @@
     "tabSize": 2
   },
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "lib",
     "module": "commonjs",
     "target": "esnext",
     "lib": [
@@ -30,7 +30,8 @@
     "baseUrl": "./src"
   },
   "include": [
-    "src/**/*"
+    "src/index.ts",
+    "src/cli.ts"
   ],
   "exclude": [
     "node_modules",

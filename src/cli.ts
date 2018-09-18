@@ -1,23 +1,24 @@
 #!/usr/bin/env node
 
-const path = require('path')
-const meow = require('meow')
-const open = require('opn')
-const chalk = require('chalk')
-const readPkgUp = require('read-pkg-up')
-const dot = require('dot-prop')
+import * as path from 'path'
+import * as meow from 'meow'
+// @ts-ignore
+import * as open from 'opn'
+import chalk from 'chalk'
+import * as readPkgUp from 'read-pkg-up'
+import * as dot from 'dot-prop'
 
 const pkg = require('../package.json')
 require('update-notifier')({ pkg }).notify()
 
-const {
+import {
   getData,
   render,
   writePages,
   server,
-} = require('../lib')
+} from './index'
 
-const log = (...msgs) => {
+const log = (...msgs: any[]) => {
   console.log(
     chalk.black.bgCyan(' gen '),
     chalk.cyan(...msgs)
@@ -57,12 +58,12 @@ const cli = meow(`
 const [
   dirname = process.cwd()
 ] = cli.input
-const userPkg = readPkgUp.sync(dirname) || {}
+const userPkg = readPkgUp.sync({cwd: dirname}) || {}
 const opts = Object.assign({}, dot.get(userPkg, 'pkg.gen'), cli.flags, {
   outDir: path.join(process.cwd(), cli.flags.outDir || '')
 })
 
-const create = async (dirname, opts) => {
+const create = async (dirname: string, opts: any) => {
   const data = await getData(dirname, opts)
   const pages = await render(data, opts)
   const result = await writePages(pages, opts)
@@ -74,15 +75,15 @@ log('@compositor/gen')
 if (opts.dev) {
   log('starting dev server')
   server(dirname, opts)
-    .then(srv => {
-      const { port } = srv.address() || {}
+    .then((srv: any) => {
+      const { port } = srv.address() || {} as { port: number }
       log(`listening on port: ${port}`)
       const url = `http://localhost:${port}`
       if (opts.open) {
         open(url)
       }
     })
-    .catch(err => {
+    .catch((err: any) => {
       log('error', err)
       process.exit(1)
     })

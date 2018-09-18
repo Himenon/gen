@@ -1,8 +1,10 @@
 import * as React from 'react'
+// @ts-ignore
 import * as babel from 'babel-standalone'
+// @ts-ignore
 import * as transformJSX from 'babel-plugin-transform-react-jsx'
 
-const parse = raw =>
+const parse = (raw: any) =>
   babel.transform(raw, {
     plugins: [transformJSX],
   }).code

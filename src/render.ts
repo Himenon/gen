@@ -2,11 +2,12 @@ import * as React from 'react'
 import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import * as SC from 'styled-components'
 import * as glamorous from 'glamorous'
+// @ts-ignore
 import * as glamor from 'glamor/server'
 import * as dot from 'dot-prop'
-import * as webfont from '@compositor/webfont'
+const webfont = require('@compositor/webfont')
 
-import * as createComponents from './createComponents'
+import { createComponents } from './createComponents'
 import { toComponent } from './jsx'
 import primitives from './primitives'
 import createHTML from './createHTML'
@@ -19,7 +20,7 @@ const themeProviders = {
   glamorous: glamorous.ThemeProvider,
 }
 
-themeProviders.default = themeProviders['styled-components']
+// themeProviders.default = themeProviders['styled-components']
 
 const cssCreators = {
   'styled-components': (Component: any, props: any) => {
@@ -36,12 +37,17 @@ const cssCreators = {
 }
 
 // alias
-cssCreators.default = cssCreators['styled-components']
-cssCreators.glamor = cssCreators.glamorous
+// cssCreators.default = cssCreators['styled-components']
+// cssCreators.glamor = cssCreators.glamorous
 
-const getLayout = (pages = [], data, scope) => {
+interface ILayout {
+  content: any
+  ext: string
+}
+
+const getLayout = (pages: any[] = [], data: any, scope: any) => {
   if (!data.layout) return scope.DefaultLayout
-  const layout = pages.find(page => page.name === data.layout)
+  const layout: ILayout | undefined = pages.find((page: { name: any }) => page.name === data.layout)
 
   if (!layout || layout.ext !== '.jsx') return scope.DefaultLayout
 
@@ -58,7 +64,9 @@ const getLayout = (pages = [], data, scope) => {
 
 const renderPage = (scope: any, opts: any) => (page: any) => {
   const library = opts.library
+  // @ts-ignore
   const Provider = themeProviders[library] || themeProviders.default
+  // @ts-ignore
   const getCSS = cssCreators[library] || cssCreators.default
 
   const Layout = page.ext === '.md' ? getLayout(opts.pages, page.data, scope) : React.Fragment
@@ -101,7 +109,8 @@ const renderPage = (scope: any, opts: any) => (page: any) => {
     const css = getCSS(Page, page.data) // full style tag
     const fontLinks = dot
       .get(scope, 'theme.fonts', [])
-      .map(font => webfont.getLinkTag(font))
+      .map((font: string) => webfont.getLinkTag(font))
+      // @ts-ignore
       .filter(tag => !!tag)
       .join('')
     const html = createHTML({ body, css, fontLinks, data: page.data })
@@ -116,7 +125,14 @@ const renderPage = (scope: any, opts: any) => (page: any) => {
   }
 }
 
-const render = async ({ dirname, theme = {}, lab = {}, pages = [] }, _opts) => {
+export interface RenderArguments {
+  dirname?: string
+  theme: any
+  lab: any
+  pages: any[]
+}
+
+const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: RenderArguments, _opts: any) => {
   const library = lab.library || 'styled-components'
   const opts = Object.assign(
     {

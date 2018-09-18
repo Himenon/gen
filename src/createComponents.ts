@@ -24,7 +24,8 @@ const componentCreators = {
   'styled-components': ({ name, type, style, props, system = [] }: Options, lib: any) => {
     const tag = lib[type] || type
     const funcs = getFunctions(system)
-    const Comp = styled(tag)(``, style, ...funcs)
+    // @ts-ignore
+    const Comp = styled(tag)([], style, ...funcs)
 
     Comp.defaultProps = props
     Comp.displayName = name
@@ -44,7 +45,7 @@ const componentCreators = {
   },
 }
 
-componentCreators.default = componentCreators['styled-components']
+// componentCreators.default = componentCreators['styled-components']
 
 const createScope = (imports: any, lib: any) =>
   imports
@@ -60,7 +61,7 @@ const createScope = (imports: any, lib: any) =>
       {},
     )
 
-const createComposite = (comp: any, lib: any) => {
+export const createComposite = (comp: any, lib: any) => {
   // todo npm/local modules scope
   const scope = createScope(comp.imports, lib)
   const Comp = toComponent(comp.jsx, scope)
@@ -98,12 +99,12 @@ const createComponent = (opts: any) => (comp: any, lib: any) => {
   if (!comp.name || !comp.type || !comp.style) return null
 
   const library = opts.library || 'styled-components'
-  const sx = componentCreators[library] || componentCreators.default
+  const sx = componentCreators[library] // || componentCreators.default
 
   return sx(comp, lib)
 }
 
-export const createComponents = (config = [], opts = {}) => {
+export const createComponents = (config: any[] = [], opts: any = {}) => {
   const base = config.filter(isBase)
   const extensions = config.filter(isExtension)
   const composites = config.filter(isComposite)

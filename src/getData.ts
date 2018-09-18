@@ -6,7 +6,7 @@ import * as matter from 'gray-matter'
 
 const readdir = promisify(fs.readdir)
 
-export const getContent = async (dirname: string) => {
+export const getContent = async (dirname: string, opts: any) => {
   let theme = {}
   let lab = { components: [] }
   try {

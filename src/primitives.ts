@@ -30,6 +30,7 @@ export default [
       padding: '0 !important',
       color: 'inherit !important',
       backgroundColor: 'transparent !important',
+      // @ts-ignore
       '& > *': Object.assign({}, space(props), width(props)),
     }),
     system: ['alignItems', 'justifyContent', 'flexDirection'],

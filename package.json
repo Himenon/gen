@@ -4,12 +4,13 @@
   "description": "Compositor JSX static site generator",
   "main": "lib/index.js",
   "bin": {
-    "gen": "./bin/cli.js"
+    "gen": "./lib/cli.js"
   },
   "scripts": {
-    "build": "./bin/cli.js examples --out-dir .site",
-    "start": "./bin/cli.js examples -Do --port 9000 --library glamorous",
+    "build": "./lib/cli.js examples --out-dir .site",
+    "start": "./lib/cli.js examples -Do --port 9000 --library glamorous",
     "test": "nyc ava",
+    "build:dev": "tsc -p ./tsconfig.json --watch",
     "format": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "keywords": [
@@ -34,7 +35,7 @@
     "load-json-file": "^4.0.0",
     "meow": "^4.0.0",
     "opn": "^5.1.0",
-    "portfinder": "^1.0.13",
+    "portfinder": "^1.0.17",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -52,8 +53,11 @@
     "@types/chokidar": "^1.7.5",
     "@types/dot-prop": "^4.2.0",
     "@types/load-json-file": "^2.0.7",
+    "@types/meow": "^4.0.1",
+    "@types/opn": "^5.1.0",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
+    "@types/read-pkg-up": "^3.0.1",
     "@types/styled-components": "^3.0.1",
     "@types/styled-system": "^3.0.4",
     "@types/ws": "^6.0.1",

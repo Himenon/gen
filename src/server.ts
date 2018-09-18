@@ -3,7 +3,6 @@ import * as http from 'http'
 import * as url from 'url'
 import * as path from 'path'
 
-import * as React from 'react'
 import * as chokidar from 'chokidar'
 import * as portfinder from 'portfinder'
 import * as WebSocket from 'ws'
@@ -12,16 +11,18 @@ import { getContent as getData } from './getData'
 import { render } from './render'
 
 const getPages = async (dirname: string, opts: any) => {
-  const data = await getData(dirname)
+  const data = await getData(dirname, opts)
   const pages = await render(data, opts)
   return pages
 }
 
 const start = async (dirname: string, opts: any) => {
   if (opts.port) {
+    // @ts-ignore
     portfinder.basePort = parseInt(opts.port)
   }
   const port = await portfinder.getPortPromise()
+  // @ts-ignore
   portfinder.basePort = port + 2
   const socketPort = await portfinder.getPortPromise()
 
@@ -96,4 +97,4 @@ socket.onmessage = msg => {
 }
 </script>`
 
-export { start }
+export { start as server }
