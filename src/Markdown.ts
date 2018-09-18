@@ -7,50 +7,54 @@ const remarkReact = require('remark-react')
 const markdownComponents = require('./markdownComponents')
 
 const heading = (Comp: any) => (props: any) => {
-  return (
-    React.createElement(Comp, props,
-      React.createElement('a', {
+  return React.createElement(
+    Comp,
+    props,
+    React.createElement(
+      'a',
+      {
         href: '#' + props.id,
         style: {
           color: 'inherit',
-          textDecoration: 'none'
-        }
+          textDecoration: 'none',
+        },
       },
-        props.children
-      )
-    )
+      props.children,
+    ),
   )
 }
 
-const relativize = (href: string) => /\.md$/.test(href) ? href.replace(/\.md$/, '/') : href
+const relativize = (href: string) => (/\.md$/.test(href) ? href.replace(/\.md$/, '/') : href)
 
-const link = (Comp: any) => (props: any) => (
-  React.createElement(Comp, Object.assign({}, props, {
-    href: relativize(props.href)
-  }))
-)
+const link = (Comp: any) => (props: any) =>
+  React.createElement(
+    Comp,
+    Object.assign({}, props, {
+      href: relativize(props.href),
+    }),
+  )
 
 const defaultProps = {
   h1: {
     mt: 4,
-    mb: 3
+    mb: 3,
   },
   h2: {
     mt: 4,
-    mb: 3
+    mb: 3,
   },
   h3: {
     mt: 4,
-    mb: 3
+    mb: 3,
   },
   p: {
     mt: 0,
-    mb: 3
-  }
+    mb: 3,
+  },
 }
 
 class Markdown extends React.Component {
-  constructor () {
+  constructor() {
     super()
 
     this.mapScope = (scope: any) => {
@@ -75,10 +79,7 @@ class Markdown extends React.Component {
       const props = Object.assign({}, defaultProps, options.markdownProps)
       Object.keys(props).forEach(key => {
         if (!scope[key]) return
-        scope[key].defaultProps = Object.assign({},
-          scope[key].defaultProps,
-          props[key]
-        )
+        scope[key].defaultProps = Object.assign({}, scope[key].defaultProps, props[key])
       })
       return scope
     }
@@ -93,7 +94,7 @@ class Markdown extends React.Component {
 
     const opts = {
       // pass Lab components to remark-react for rendering
-      remarkReactComponents
+      remarkReactComponents,
     }
     const element = remark()
       .use(remarkSlug)
@@ -105,7 +106,7 @@ class Markdown extends React.Component {
 }
 
 Markdown.propTypes = {
-  scope: PropTypes.object
+  scope: PropTypes.object,
 }
 
 export default Markdown

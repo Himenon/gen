@@ -13,12 +13,7 @@ export interface ICreateHTML {
   body: string
 }
 
-export default ({
-  data = {},
-  css = '',
-  fontLinks = '',
-  body = ''
-}: ICreateHTML) => {
+export default ({ data = {}, css = '', fontLinks = '', body = '' }: ICreateHTML) => {
   const meta = getMeta(data)
 
   return [
@@ -39,27 +34,26 @@ export default ({
     body,
     getScripts(data.scripts),
     '</body>',
-  ].filter(n => !!n)
-  .join('')
+  ]
+    .filter(n => !!n)
+    .join('')
 }
 
-const getMeta = (data: any) => (key: string, name?: string) =>
-  data[key] ? `<meta name='${name || key}' content='${data[key]}'>` : ''
+const getMeta = (data: any) => (key: string, name?: string) => (data[key] ? `<meta name='${name || key}' content='${data[key]}'>` : '')
 
-const getStylesheets = (stylesheets: any) => Array.isArray(stylesheets)
-  ? stylesheets.map(href => `<link rel='stylesheet' href='${href}'>`)
-  : ''
+const getStylesheets = (stylesheets: any) =>
+  Array.isArray(stylesheets) ? stylesheets.map(href => `<link rel='stylesheet' href='${href}'>`) : ''
 
-const getOG = (og = {}) => Object.keys(og || {})
-  .map(key => getMeta(og)(key, 'og:' + key))
-  .join('')
+const getOG = (og = {}) =>
+  Object.keys(og || {})
+    .map(key => getMeta(og)(key, 'og:' + key))
+    .join('')
 
-const getTwitterCard = (twitter = {}) => Object.keys(twitter || {})
-  .map(key => getMeta(twitter)(key, 'twitter:' + key))
-  .join('')
+const getTwitterCard = (twitter = {}) =>
+  Object.keys(twitter || {})
+    .map(key => getMeta(twitter)(key, 'twitter:' + key))
+    .join('')
 
-const getScripts = (scripts: any) => Array.isArray(scripts)
-  ? scripts.map(script => `<script>${script}</script>`)
-  : ''
+const getScripts = (scripts: any) => (Array.isArray(scripts) ? scripts.map(script => `<script>${script}</script>`) : '')
 
 const baseCSS = `*{box-sizing:border-box}body{margin:0}`

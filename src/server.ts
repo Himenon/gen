@@ -8,7 +8,7 @@ import * as chokidar from 'chokidar'
 import * as portfinder from 'portfinder'
 import * as WebSocket from 'ws'
 
-import {getContent as getData} from './getData'
+import { getContent as getData } from './getData'
 import { render } from './render'
 
 const getPages = async (dirname: string, opts: any) => {
@@ -31,7 +31,7 @@ const start = async (dirname: string, opts: any) => {
   const watcher = chokidar.watch(dirname, {
     depth: 1,
     ignoreInitial: true,
-    ignored: '!*.(jsx|md|json)'
+    ignored: '!*.(jsx|md|json)',
   })
 
   const socketServer = new WebSocket.Server({ port: socketPort })

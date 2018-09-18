@@ -5,9 +5,7 @@ import * as util from 'util'
 const write = util.promisify(fs.writeFile)
 
 const writePages = async (pages: any, opts: any) => {
-  const {
-    outDir = process.cwd()
-  } = opts
+  const { outDir = process.cwd() } = opts
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir)
   }
@@ -22,7 +20,7 @@ const writePages = async (pages: any, opts: any) => {
   })
   const errs = await Promise.all(promises)
   if (errs) {
-    console.error(errs);
+    console.error(errs)
   }
   return pages
 }

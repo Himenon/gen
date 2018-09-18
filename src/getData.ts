@@ -26,7 +26,7 @@ export const getContent = async (dirname: string) => {
   const jsxFilenames = filenames.filter(name => /\.jsx$/.test(name))
   const mdFilenames = filenames.filter(name => /\.md/.test(name))
 
-  const contentFiles = [ ...jsxFilenames, ...mdFilenames ]
+  const contentFiles = [...jsxFilenames, ...mdFilenames]
   const promises = contentFiles.map(getPage(dirname))
   const pages = await Promise.all(promises)
   const withLayouts = pages.map(getLayout(pages))
@@ -35,7 +35,7 @@ export const getContent = async (dirname: string) => {
     dirname,
     theme,
     lab,
-    pages: withLayouts
+    pages: withLayouts,
   }
 }
 

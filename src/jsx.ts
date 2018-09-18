@@ -2,11 +2,10 @@ import * as React from 'react'
 import * as babel from 'babel-standalone'
 import * as transformJSX from 'babel-plugin-transform-react-jsx'
 
-const parse = raw => babel.transform(raw, {
-  plugins: [
-    transformJSX
-  ]
-}).code
+const parse = raw =>
+  babel.transform(raw, {
+    plugins: [transformJSX],
+  }).code
 
 const wrap = (jsx: any) => `<React.Fragment>${jsx}</React.Fragment>`
 
@@ -20,7 +19,4 @@ const toComponent = (jsx: any, scope = {}) => {
   return Comp
 }
 
-export {
-  parse,
-  toComponent
-}
+export { parse, toComponent }
