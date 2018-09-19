@@ -13,6 +13,8 @@ import { toComponent } from './jsx'
 import Markdown from './Markdown'
 import primitives from './primitives'
 
+import { Options } from './types'
+
 const h = React.createElement
 
 const themeProviders = {
@@ -40,7 +42,7 @@ const cssCreators = {
 // cssCreators.default = cssCreators['styled-components']
 // cssCreators.glamor = cssCreators.glamorous
 
-interface ILayout {
+interface LayoutInterface {
   content: any
   ext: string
 }
@@ -49,7 +51,7 @@ const getLayout = (pages: any[] = [], data: any, scope: any) => {
   if (!data.layout) {
     return scope.DefaultLayout
   }
-  const layout: ILayout | undefined = pages.find((page: { name: any }) => page.name === data.layout)
+  const layout: LayoutInterface | undefined = pages.find((page: { name: any }) => page.name === data.layout)
 
   if (!layout || layout.ext !== '.jsx') {
     return scope.DefaultLayout
@@ -66,7 +68,7 @@ const getLayout = (pages: any[] = [], data: any, scope: any) => {
   }
 }
 
-const renderPage = (scope: any, opts: any) => (page: any) => {
+const renderPage = (scope: any, opts: Options) => (page: any) => {
   const library = opts.library
   // @ts-ignore
   const Provider = themeProviders[library] || themeProviders.default
@@ -139,23 +141,23 @@ export interface RenderArguments {
   pages: any[]
 }
 
-const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: RenderArguments, _opts: any) => {
+const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: RenderArguments, opts: Options) => {
   const library = lab.library || 'styled-components'
-  const opts = {
+  const opts2 = {
     dirname,
     library,
     pages,
-    ..._opts,
+    ...opts,
   }
 
-  const base = createComponents(primitives, opts)
-  const components = createComponents(lab.components || [], opts)
+  const base = createComponents(primitives, opts2)
+  const components = createComponents(lab.components || [], opts2)
   const scope = {
     ...base,
     ...components,
     theme,
   }
-  const rendered = pages.map(renderPage(scope, opts))
+  const rendered = pages.map(renderPage(scope, opts2))
 
   return rendered
 }

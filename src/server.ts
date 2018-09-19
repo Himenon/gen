@@ -9,17 +9,18 @@ import * as WebSocket from 'ws'
 
 import { getContent as getData } from './getData'
 import { render } from './render'
+import { Options } from './types'
 
-const getPages = async (dirname: string, opts: any) => {
+const getPages = async (dirname: string, opts: Options) => {
   const data = await getData(dirname, opts)
   const pages = await render(data, opts)
   return pages
 }
 
-const start = async (dirname: string, opts: any) => {
+const start = async (dirname: string, opts: Options) => {
   if (opts.port) {
     // @ts-ignore
-    portfinder.basePort = parseInt(opts.port)
+    portfinder.basePort = parseInt(opts.port, 10)
   }
   const port = await portfinder.getPortPromise()
   // @ts-ignore
@@ -27,7 +28,7 @@ const start = async (dirname: string, opts: any) => {
   const socketPort = await portfinder.getPortPromise()
 
   let socket: any
-  let pages = await getPages(dirname, opts)
+  let gPages = await getPages(dirname, opts)
 
   const watcher = chokidar.watch(dirname, {
     depth: 1,
@@ -45,7 +46,7 @@ const start = async (dirname: string, opts: any) => {
     if (!socket) {
       return
     }
-    pages = await getPages(dirname, opts)
+    gPages = await getPages(dirname, opts)
     socket.send(JSON.stringify({ reload: true }))
   }
 
@@ -73,7 +74,7 @@ const start = async (dirname: string, opts: any) => {
     }
 
     const name = pathname === '/' ? 'index' : (pathname as string).replace(/^\//, '').replace(/\/$/, '')
-    const page = pages.find((page: any) => page.name === name)
+    const page = gPages.find((localPage: any) => localPage.name === name)
     if (!page) {
       res.write('page not found: ' + pathname)
       res.end()

@@ -4,21 +4,23 @@ import * as loadJSON from 'load-json-file'
 import * as path from 'path'
 import { promisify } from 'util'
 
+import { Options } from './types'
+
 const readdir = promisify(fs.readdir)
 
-export const getContent = async (dirname: string, opts: any) => {
+export const getContent = async (dirname: string, opts: Options) => {
   let theme = {}
   let lab = { components: [] }
   try {
     theme = await loadJSON(path.join(dirname, 'theme.json'))
   } catch (err) {
-    // console.log('no theme.json found')
+    console.log('no theme.json found')
   }
 
   try {
     lab = await loadJSON(path.join(dirname, 'lab.json'))
   } catch (err) {
-    // console.log('no lab.json found')
+    console.log('no lab.json found')
   }
 
   const allFiles = await readdir(dirname)
@@ -33,9 +35,9 @@ export const getContent = async (dirname: string, opts: any) => {
 
   return {
     dirname,
-    theme,
     lab,
     pages: withLayouts,
+    theme,
   }
 }
 
@@ -47,12 +49,12 @@ const getPage = (dirname: string) => async (filename: string) => {
   const { data, content } = matter(raw)
 
   return {
+    content,
+    data,
+    ext,
     filename,
     name,
-    ext,
     raw,
-    data,
-    content,
   }
 }
 

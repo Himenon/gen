@@ -1,19 +1,6 @@
-export interface IData {
-  title?: string
-  og?: string
-  twitter?: string
-  scripts?: any
-  stylesheets?: string
-}
+import { CreateHtmlOption } from './types'
 
-export interface ICreateHTML {
-  data: IData
-  css: string
-  fontLinks: string
-  body: string
-}
-
-export default ({ data = {}, css = '', fontLinks = '', body = '' }: ICreateHTML) => {
+export default ({ data = {}, css = '', fontLinks = '', body = '' }: CreateHtmlOption) => {
   const meta = getMeta(data)
 
   return [

@@ -8,6 +8,8 @@ import * as open from 'opn'
 import * as path from 'path'
 import * as readPkgUp from 'read-pkg-up'
 
+import { Options } from './types'
+
 const pkg = require('../package.json')
 require('update-notifier')({ pkg }).notify()
 
@@ -30,35 +32,35 @@ const cli = meow(
 `,
   {
     flags: {
-      outDir: {
-        type: 'string',
-        alias: 'd',
-      },
       dev: {
-        type: 'boolean',
         alias: 'D',
-      },
-      port: {
-        type: 'string',
-        alias: 'p',
+        type: 'boolean',
       },
       open: {
-        type: 'boolean',
         alias: 'o',
+        type: 'boolean',
+      },
+      outDir: {
+        alias: 'd',
+        type: 'string',
+      },
+      port: {
+        alias: 'p',
+        type: 'string',
       },
     },
   },
 )
 
-const [dirname = process.cwd()] = cli.input
-const userPkg = readPkgUp.sync({ cwd: dirname }) || {}
-const opts = {
+const [localDirname = process.cwd()] = cli.input
+const userPkg = readPkgUp.sync({ cwd: localDirname }) || {}
+const localOpts = {
   ...dot.get(userPkg, 'pkg.gen'),
   ...cli.flags,
   outDir: path.join(process.cwd(), cli.flags.outDir || ''),
 }
 
-const create = async (dirname: string, opts: any) => {
+const create = async (dirname: string, opts: Options) => {
   const data = await getData(dirname, opts)
   const pages = await render(data, opts)
   const result = await writePages(pages, opts)
@@ -67,14 +69,14 @@ const create = async (dirname: string, opts: any) => {
 
 log('@compositor/gen')
 
-if (opts.dev) {
+if (localOpts.dev) {
   log('starting dev server')
-  server(dirname, opts)
+  server(localDirname, localOpts)
     .then((srv: any) => {
-      const { port } = srv.address() || ({} as { port: number })
+      const { port } = srv.address()
       log(`listening on port: ${port}`)
       const url = `http://localhost:${port}`
-      if (opts.open) {
+      if (localOpts.open) {
         open(url)
       }
     })
@@ -83,9 +85,9 @@ if (opts.dev) {
       process.exit(1)
     })
 } else {
-  create(dirname, opts)
+  create(localDirname, localOpts)
     .then(result => {
-      log('files saved to', dirname)
+      log('files saved to', localDirname)
     })
     .catch(err => {
       log('error', err)

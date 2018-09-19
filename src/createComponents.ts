@@ -1,42 +1,27 @@
 import glamorous from 'glamorous'
 import styled from 'styled-components'
-import * as system from 'styled-system'
+import * as styledSystem from 'styled-system'
 
 const { toComponent } = require('./jsx')
-
-export interface Options {
-  name: string
-  type: string
-  style: string
-  props: string
-  system: any[]
-}
-
-export interface GlamorousOptions {
-  name: string
-  type: string
-  style: any
-  props: any
-  system: any[]
-}
+import { GlamorousOptions, StyledOptions } from './types'
 
 const componentCreators = {
-  'styled-components': ({ name, type, style, props, system = [] }: Options, lib: any) => {
+  glamorous: ({ name, type, style, props, system = [] }: GlamorousOptions, lib: any) => {
+    // todo: DRY up
     const tag = lib[type] || type
     const funcs = getFunctions(system)
-    // @ts-ignore
-    const Comp = styled(tag)([], style, ...funcs)
+    const Comp = glamorous(tag)(style, ...funcs)
 
     Comp.defaultProps = props
     Comp.displayName = name
 
     return Comp
   },
-  glamorous: ({ name, type, style, props, system = [] }: GlamorousOptions, lib: any) => {
-    // todo: DRY up
+  'styled-components': ({ name, type, style, props, system = [] }: StyledOptions, lib: any) => {
     const tag = lib[type] || type
     const funcs = getFunctions(system)
-    const Comp = glamorous(tag)(style, ...funcs)
+    // @ts-ignore
+    const Comp = styled(tag)([], style, ...funcs)
 
     Comp.defaultProps = props
     Comp.displayName = name
@@ -79,7 +64,7 @@ export interface CompositeType {
   jsx: JSX.Element
 }
 
-const getFunctions = (funcs: any) => [...defaultFuncs, ...funcs].map(key => system[key]).filter(func => typeof func === 'function')
+const getFunctions = (funcs: any) => [...defaultFuncs, ...funcs].map(key => styledSystem[key]).filter(func => typeof func === 'function')
 
 const isBase = ({ type }: MyType) => type && /[a-z]/.test(type)
 const isExtension = ({ type }: MyType) => type && /[A-Z]/.test(type)

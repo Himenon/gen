@@ -11,8 +11,11 @@
     "start": "./lib/cli.js examples -Do --port 9000 --library glamorous",
     "test": "nyc ava",
     "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix -t verbose",
+    "cruiser": "npx dependency-cruiser --validate .dependency-cruiser.json --ts-config=./tsconfig.json src",
     "fmt": "prettier --write src/**/*.ts src/**/*.tsx",
     "build:dev": "tsc -p ./tsconfig.json --watch",
+    "visualize": "madge src/index.ts --image output.png",
     "format": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "keywords": [
@@ -65,6 +68,7 @@
     "@types/styled-system": "^3.0.4",
     "@types/ws": "^6.0.1",
     "ava": "^0.24.0",
+    "dependency-cruiser": "^4.6.0",
     "nyc": "^11.3.0",
     "prettier": "^1.14.3",
     "tslint": "^5.11.0",

@@ -2,9 +2,11 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as util from 'util'
 
+import { Options } from './types'
+
 const write = util.promisify(fs.writeFile)
 
-const writePages = async (pages: any, opts: any) => {
+const writePages = async (pages: any, opts: Options) => {
   const { outDir = process.cwd() } = opts
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir)

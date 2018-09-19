@@ -4,6 +4,7 @@ const remarkSlug = require('remark-slug')
 const remarkReact = require('remark-react')
 
 import { markdownComponents } from './markdownComponents'
+import { MarkdownProps } from './types'
 
 const heading = (Comp: any) => (props: any) => {
   return React.createElement(
@@ -31,33 +32,22 @@ const link = (Comp: any) => (props: any) =>
     href: relativize(props.href),
   })
 
-export interface MarkdownProps {
-  h1: { [key in string]: number }
-  h2: { [key in string]: number }
-  h3: { [key in string]: number }
-  p: { [key in string]: number }
-  options?: { [key in string]: number }
-  text?: string
-  scope: any
-  library: any
-}
-
 const defaultProps = {
   h1: {
-    mt: 4,
     mb: 3,
+    mt: 4,
   },
   h2: {
-    mt: 4,
     mb: 3,
+    mt: 4,
   },
   h3: {
-    mt: 4,
     mb: 3,
+    mt: 4,
   },
   p: {
-    mt: 0,
     mb: 3,
+    mt: 0,
   },
 }
 
@@ -80,17 +70,18 @@ class Markdown extends React.Component<MarkdownProps, {}> {
 
     return element
   }
+
   private mapScope = (scope: any) => {
     const comps = {
+      a: link(scope.Link),
+      blockquote: scope.Blockquote,
+      code: scope.Code,
       h1: heading(scope.Title || scope.Heading || scope.H1),
       h2: heading(scope.Heading || scope.H2),
       h3: heading(scope.Subhead || scope.H3),
-      p: scope.Text,
-      a: link(scope.Link),
       hr: scope.Divider,
-      blockquote: scope.Blockquote,
+      p: scope.Text,
       pre: scope.Pre,
-      code: scope.Code,
       table: scope.Table,
     }
 
@@ -99,6 +90,7 @@ class Markdown extends React.Component<MarkdownProps, {}> {
 
   private applyProps = (scope: any) => {
     const { options = {} } = this.props
+    // @ts-ignore
     const props = { ...defaultProps, ...options.markdownProps }
     Object.keys(props).forEach(key => {
       if (!scope[key]) {
