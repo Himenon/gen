@@ -1,17 +1,17 @@
+import * as dot from 'dot-prop'
+// @ts-ignore
+import * as glamor from 'glamor/server'
+import * as glamorous from 'glamorous'
 import * as React from 'react'
 import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import * as SC from 'styled-components'
-import * as glamorous from 'glamorous'
-// @ts-ignore
-import * as glamor from 'glamor/server'
-import * as dot from 'dot-prop'
 const webfont = require('@compositor/webfont')
 
 import { createComponents } from './createComponents'
-import { toComponent } from './jsx'
-import primitives from './primitives'
 import createHTML from './createHTML'
+import { toComponent } from './jsx'
 import Markdown from './Markdown'
+import primitives from './primitives'
 
 const h = React.createElement
 
@@ -46,10 +46,14 @@ interface ILayout {
 }
 
 const getLayout = (pages: any[] = [], data: any, scope: any) => {
-  if (!data.layout) return scope.DefaultLayout
+  if (!data.layout) {
+    return scope.DefaultLayout
+  }
   const layout: ILayout | undefined = pages.find((page: { name: any }) => page.name === data.layout)
 
-  if (!layout || layout.ext !== '.jsx') return scope.DefaultLayout
+  if (!layout || layout.ext !== '.jsx') {
+    return scope.DefaultLayout
+  }
 
   const { content } = layout
   try {
@@ -70,7 +74,8 @@ const renderPage = (scope: any, opts: any) => (page: any) => {
   const getCSS = cssCreators[library] || cssCreators.default
 
   const Layout = page.ext === '.md' ? getLayout(opts.pages, page.data, scope) : React.Fragment
-  const pageScope = Object.assign({}, scope, {
+  const pageScope = {
+    ...scope,
     Layout,
     Markdown,
     Provider,
@@ -78,7 +83,7 @@ const renderPage = (scope: any, opts: any) => (page: any) => {
     page,
     library,
     options: opts,
-  })
+  }
 
   const content =
     page.ext === '.jsx'
@@ -114,14 +119,16 @@ const renderPage = (scope: any, opts: any) => (page: any) => {
       .filter(tag => !!tag)
       .join('')
     const html = createHTML({ body, css, fontLinks, data: page.data })
-    return Object.assign({}, page, {
+    return {
+      ...page,
       html,
-    })
+    }
   } catch (err) {
     console.log(err)
-    return Object.assign({}, page, {
+    return {
+      ...page,
       html: err.toString(),
-    })
+    }
   }
 }
 
@@ -134,20 +141,20 @@ export interface RenderArguments {
 
 const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: RenderArguments, _opts: any) => {
   const library = lab.library || 'styled-components'
-  const opts = Object.assign(
-    {
-      dirname,
-      library,
-      pages,
-    },
-    _opts,
-  )
+  const opts = {
+    dirname,
+    library,
+    pages,
+    ..._opts,
+  }
 
   const base = createComponents(primitives, opts)
   const components = createComponents(lab.components || [], opts)
-  const scope = Object.assign({}, base, components, {
+  const scope = {
+    ...base,
+    ...components,
     theme,
-  })
+  }
   const rendered = pages.map(renderPage(scope, opts))
 
   return rendered

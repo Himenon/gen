@@ -26,12 +26,10 @@ const heading = (Comp: any) => (props: any) => {
 const relativize = (href: string) => (/\.md$/.test(href) ? href.replace(/\.md$/, '/') : href)
 
 const link = (Comp: any) => (props: any) =>
-  React.createElement(
-    Comp,
-    Object.assign({}, props, {
-      href: relativize(props.href),
-    }),
-  )
+  React.createElement(Comp, {
+    ...props,
+    href: relativize(props.href),
+  })
 
 export interface MarkdownProps {
   h1: { [key in string]: number }
@@ -64,6 +62,24 @@ const defaultProps = {
 }
 
 class Markdown extends React.Component<MarkdownProps, {}> {
+  public render() {
+    const { text = '', scope, library } = this.props
+    const defaultScope = markdownComponents({ library })
+
+    const mappedScope = this.mapScope({ ...defaultScope, ...scope })
+    const remarkReactComponents = this.applyProps(mappedScope)
+
+    const opts = {
+      // pass Lab components to remark-react for rendering
+      remarkReactComponents,
+    }
+    const element = remark()
+      .use(remarkSlug)
+      .use(remarkReact, opts)
+      .processSync(text).contents
+
+    return element
+  }
   private mapScope = (scope: any) => {
     const comps = {
       h1: heading(scope.Title || scope.Heading || scope.H1),
@@ -83,31 +99,14 @@ class Markdown extends React.Component<MarkdownProps, {}> {
 
   private applyProps = (scope: any) => {
     const { options = {} } = this.props
-    const props = Object.assign({}, defaultProps, options.markdownProps)
+    const props = { ...defaultProps, ...options.markdownProps }
     Object.keys(props).forEach(key => {
-      if (!scope[key]) return
-      scope[key].defaultProps = Object.assign({}, scope[key].defaultProps, props[key])
+      if (!scope[key]) {
+        return
+      }
+      scope[key].defaultProps = { ...scope[key].defaultProps, ...props[key] }
     })
     return scope
-  }
-
-  render() {
-    const { text = '', scope, library } = this.props
-    const defaultScope = markdownComponents({ library })
-
-    const mappedScope = this.mapScope(Object.assign({}, defaultScope, scope))
-    const remarkReactComponents = this.applyProps(mappedScope)
-
-    const opts = {
-      // pass Lab components to remark-react for rendering
-      remarkReactComponents,
-    }
-    const element = remark()
-      .use(remarkSlug)
-      .use(remarkReact, opts)
-      .processSync(text).contents
-
-    return element
   }
 }
 

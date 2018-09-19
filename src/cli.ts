@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
-import * as path from 'path'
+import chalk from 'chalk'
+import * as dot from 'dot-prop'
 import * as meow from 'meow'
 // @ts-ignore
 import * as open from 'opn'
-import chalk from 'chalk'
+import * as path from 'path'
 import * as readPkgUp from 'read-pkg-up'
-import * as dot from 'dot-prop'
 
 const pkg = require('../package.json')
 require('update-notifier')({ pkg }).notify()
 
-import { getData, render, writePages, server } from './index'
+import { getData, render, server, writePages } from './index'
 
 const log = (...msgs: any[]) => {
   console.log(chalk.black.bgCyan(' gen '), chalk.cyan(...msgs))
@@ -52,9 +52,11 @@ const cli = meow(
 
 const [dirname = process.cwd()] = cli.input
 const userPkg = readPkgUp.sync({ cwd: dirname }) || {}
-const opts = Object.assign({}, dot.get(userPkg, 'pkg.gen'), cli.flags, {
+const opts = {
+  ...dot.get(userPkg, 'pkg.gen'),
+  ...cli.flags,
   outDir: path.join(process.cwd(), cli.flags.outDir || ''),
-})
+}
 
 const create = async (dirname: string, opts: any) => {
   const data = await getData(dirname, opts)

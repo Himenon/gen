@@ -31,7 +31,7 @@ export default [
       color: 'inherit !important',
       backgroundColor: 'transparent !important',
       // @ts-ignore
-      '& > *': Object.assign({}, space(props), width(props)),
+      '& > *': { ...space(props), ...width(props) },
     }),
     system: ['alignItems', 'justifyContent', 'flexDirection'],
   },

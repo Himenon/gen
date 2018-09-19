@@ -1,8 +1,8 @@
 import * as fs from 'fs'
+import * as matter from 'gray-matter'
+import * as loadJSON from 'load-json-file'
 import * as path from 'path'
 import { promisify } from 'util'
-import * as loadJSON from 'load-json-file'
-import * as matter from 'gray-matter'
 
 const readdir = promisify(fs.readdir)
 
@@ -57,11 +57,17 @@ const getPage = (dirname: string) => async (filename: string) => {
 }
 
 const getLayout = (pages: any) => (page: any) => {
-  if (page.ext !== '.md') return page
-  if (!page.data.layout) return page
+  if (page.ext !== '.md') {
+    return page
+  }
+  if (!page.data.layout) {
+    return page
+  }
   const layout = pages.find((p: any) => p.name === page.data.layout)
-  if (!layout) return page
-  page.data = Object.assign({}, layout.data, page.data)
+  if (!layout) {
+    return page
+  }
+  page.data = { ...layout.data, ...page.data }
   page.layoutJSX = layout.content
   return page
 }

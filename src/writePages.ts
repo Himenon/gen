@@ -16,7 +16,7 @@ const writePages = async (pages: any, opts: any) => {
     if (!fs.existsSync(path.dirname(filename))) {
       fs.mkdirSync(path.dirname(filename))
     }
-    return await write(filename, page.html)
+    return write(filename, page.html)
   })
   const errs = await Promise.all(promises)
   if (errs) {

@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as http from 'http'
-import * as url from 'url'
 import * as path from 'path'
+import * as url from 'url'
 
 import * as chokidar from 'chokidar'
 import * as portfinder from 'portfinder'
@@ -42,16 +42,22 @@ const start = async (dirname: string, opts: any) => {
   })
 
   const update = async () => {
-    if (!socket) return
+    if (!socket) {
+      return
+    }
     pages = await getPages(dirname, opts)
     socket.send(JSON.stringify({ reload: true }))
   }
 
   watcher.on('change', async (filename: string) => {
-    if (!socket) return
+    if (!socket) {
+      return
+    }
     const base = path.basename(filename)
     const ext = path.extname(base)
-    if (!/\.(jsx|md|json)$/.test(ext)) return
+    if (!/\.(jsx|md|json)$/.test(ext)) {
+      return
+    }
     // todo: handle this per file
     update()
   })

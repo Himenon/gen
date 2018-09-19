@@ -1,6 +1,6 @@
-import * as system from 'styled-system'
-import styled from 'styled-components'
 import glamorous from 'glamorous'
+import styled from 'styled-components'
+import * as system from 'styled-system'
 
 const { toComponent } = require('./jsx')
 
@@ -54,10 +54,10 @@ const createScope = (imports: any, lib: any) =>
       value: lib[key],
     }))
     .reduce(
-      (a: any, b: any) =>
-        Object.assign(a, {
-          [b.key]: b.value,
-        }),
+      (a: any, b: any) => ({
+        ...a,
+        [b.key]: b.value,
+      }),
       {},
     )
 
@@ -70,7 +70,9 @@ export const createComposite = (comp: any, lib: any) => {
 
 const defaultFuncs = ['space', 'fontSize', 'width', 'color']
 
-export type MyType = { type: string }
+export interface MyType {
+  type: string
+}
 export interface CompositeType {
   type: string
   imports: any
@@ -84,19 +86,22 @@ const isExtension = ({ type }: MyType) => type && /[A-Z]/.test(type)
 const isComposite = ({ type, imports, jsx }: CompositeType) => !type && imports && jsx
 const isExternal = ({ external }: { external: any }) => external
 
-const mergeComponents = (create: any) => (a: any, comp: any) =>
-  Object.assign(
-    a,
-    {
-      [comp.name]: create(comp, a),
-    },
-    {},
-  )
+const mergeComponents = (create: any) => (a: any, comp: any) => ({
+  ...a,
+
+  [comp.name]: create(comp, a),
+})
 
 const createComponent = (opts: any) => (comp: any, lib: any) => {
-  if (isExternal(comp)) return null
-  if (isComposite(comp)) return createComposite(comp, lib)
-  if (!comp.name || !comp.type || !comp.style) return null
+  if (isExternal(comp)) {
+    return null
+  }
+  if (isComposite(comp)) {
+    return createComposite(comp, lib)
+  }
+  if (!comp.name || !comp.type || !comp.style) {
+    return null
+  }
 
   const library = opts.library || 'styled-components'
   const sx = componentCreators[library] // || componentCreators.default

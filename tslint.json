@@ -1,6 +1,7 @@
 {
   "extends": [
     "tslint:latest",
+    "tslint:recommended",
     "tslint-react",
     "tslint-plugin-prettier",
     "tslint-config-prettier"
@@ -19,7 +20,7 @@
     "class-name": true,
     "triple-equals": true,
     "indent": [true, "spaces", 2],
-    "max-line-length": [true, 180],
+    "max-line-length": [true, 140],
     "no-arg": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
@@ -31,7 +32,7 @@
     "no-implicit-dependencies": [false, "optional"],
     "interface-name": [true, "never-prefix"],
     "no-submodule-imports": false,
-    "object-literal-sort-keys": [false, "match-declaration-order"],
+    "object-literal-sort-keys": [true, "match-declaration-order"],
     "trailing-comma": false,
     "rulesDirectory": [
       "tslint-plugin-prettier"

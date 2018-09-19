@@ -10,6 +10,8 @@
     "build": "./lib/cli.js examples --out-dir .site",
     "start": "./lib/cli.js examples -Do --port 9000 --library glamorous",
     "test": "nyc ava",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "fmt": "prettier --write src/**/*.ts src/**/*.tsx",
     "build:dev": "tsc -p ./tsconfig.json --watch",
     "format": "prettier --write src/**/*.ts src/**/*.tsx"
   },
@@ -64,11 +66,13 @@
     "@types/ws": "^6.0.1",
     "ava": "^0.24.0",
     "nyc": "^11.3.0",
+    "prettier": "^1.14.3",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.0",
-    "tslint-react": "^3.6.0"
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.0.3"
   },
   "gen": {
     "title": "Gen",
