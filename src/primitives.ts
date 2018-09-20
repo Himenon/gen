@@ -1,4 +1,4 @@
-const { theme } = require('styled-system')
+import { space, themeGet, width } from 'styled-system'
 
 export default [
   {
@@ -30,7 +30,6 @@ export default [
       padding: '0 !important',
       color: 'inherit !important',
       backgroundColor: 'transparent !important',
-      // @ts-ignore
       '& > *': { ...space(props), ...width(props) },
     }),
     system: ['alignItems', 'justifyContent', 'flexDirection'],
@@ -77,9 +76,9 @@ export default [
     type: 'div',
     props: {},
     style: (props: any) => ({
-      fontFamily: theme('fonts.0', 'sans-serif')(props),
-      lineHeight: theme('lineHeight', 1.5)(props),
-      color: theme('textColor')(props),
+      fontFamily: themeGet('fonts.0', 'sans-serif')(props),
+      lineHeight: themeGet('lineHeight', '1.5')(props),
+      color: themeGet('textColor')(props),
     }),
     system: [],
   },

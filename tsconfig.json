@@ -34,12 +34,8 @@
     "src/cli.ts"
   ],
   "exclude": [
-    "node_modules",
-    "dist",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
+    "./node_modules",
+    "./dist",
     "jest"
   ],
   "ordered-imports": [

@@ -1,24 +1,24 @@
 import * as fs from 'fs'
 import * as matter from 'gray-matter'
-import * as loadJSON from 'load-json-file'
+import loadJsonFile from 'load-json-file'
 import * as path from 'path'
 import { promisify } from 'util'
 
-import { Options } from './types'
+import { Content, Options } from './types'
 
 const readdir = promisify(fs.readdir)
 
-export const getContent = async (dirname: string, opts: Options) => {
-  let theme = {}
-  let lab = { components: [] }
+export const getContent = async (dirname: string, opts: Options): Promise<Content> => {
+  let theme: any = {}
+  let lab: any = { components: [] }
   try {
-    theme = await loadJSON(path.join(dirname, 'theme.json'))
+    theme = await loadJsonFile(path.join(dirname, 'theme.json'))
   } catch (err) {
     console.log('no theme.json found')
   }
 
   try {
-    lab = await loadJSON(path.join(dirname, 'lab.json'))
+    lab = await loadJsonFile(path.join(dirname, 'lab.json'))
   } catch (err) {
     console.log('no lab.json found')
   }
@@ -32,7 +32,6 @@ export const getContent = async (dirname: string, opts: Options) => {
   const promises = contentFiles.map(getPage(dirname))
   const pages = await Promise.all(promises)
   const withLayouts = pages.map(getLayout(pages))
-
   return {
     dirname,
     lab,

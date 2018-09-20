@@ -41,3 +41,10 @@ export interface GlamorousOptions {
   props: any
   system: any[]
 }
+
+export interface Content {
+  dirname: any
+  lab: any
+  pages: any
+  theme: any
+}

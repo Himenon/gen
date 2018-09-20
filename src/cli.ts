@@ -3,8 +3,7 @@
 import chalk from 'chalk'
 import * as dot from 'dot-prop'
 import * as meow from 'meow'
-// @ts-ignore
-import * as open from 'opn'
+import opn = require('opn')
 import * as path from 'path'
 import * as readPkgUp from 'read-pkg-up'
 
@@ -15,8 +14,12 @@ require('update-notifier')({ pkg }).notify()
 
 import { getData, render, server, writePages } from './index'
 
-const log = (...msgs: any[]) => {
-  console.log(chalk.black.bgCyan(' gen '), chalk.cyan(...msgs))
+/**
+ * DebugMessage用
+ * @param messages anyで良い
+ */
+const log = (...messages: any[]) => {
+  console.log(chalk.black.bgCyan(' gen '), chalk.cyan(...messages))
 }
 
 const cli = meow(
@@ -77,7 +80,7 @@ if (localOpts.dev) {
       log(`listening on port: ${port}`)
       const url = `http://localhost:${port}`
       if (localOpts.open) {
-        open(url)
+        opn(url)
       }
     })
     .catch((err: any) => {
@@ -85,6 +88,7 @@ if (localOpts.dev) {
       process.exit(1)
     })
 } else {
+  // 開発環境ではなく、サイトを生成する
   create(localDirname, localOpts)
     .then(result => {
       log('files saved to', localDirname)
