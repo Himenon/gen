@@ -35,21 +35,15 @@ const start = async (dirname: string, opts: Options) => {
   const socketServer = new WebSocket.Server({ port: socketPort })
 
   socketServer.on('connection', (res: WebSocket) => {
-    console.log('connection!!!')
     socket = res
   })
 
   socketServer.on('error', (err: any) => {
-    console.log('Error !!!')
-    console.error('エラー！', JSON.stringify(err))
+    console.error('connection error:', JSON.stringify(err))
   })
 
   socketServer.on('close', (res: WebSocket) => {
-    console.log('接続が切れました')
-  })
-
-  socketServer.addListener('error', (event: any) => {
-    console.error('エラー屋で！')
+    console.log('connection closed')
   })
 
   const update = async () => {
@@ -80,18 +74,17 @@ const start = async (dirname: string, opts: Options) => {
    * WebServer
    */
   const app = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
-    // @ts-ignore
-    const { pathname } = url.parse(req.url)
-    const filepath = path.join(dirname, pathname as string)
-
-    if (!!req.url) {
-      console.error('なかったよー', filepath)
+    if (!req.url) {
+      return
     }
-
+    const { pathname } = url.parse(req.url)
+    if (!pathname) {
+      return
+    }
+    const filepath = path.join(dirname, pathname)
     // serve local images and files
     if (fs.existsSync(filepath) && fs.statSync(filepath).isFile()) {
       fs.createReadStream(filepath).pipe(res)
-
       return
     }
 
@@ -100,7 +93,6 @@ const start = async (dirname: string, opts: Options) => {
 
     if (!page) {
       res.write('page not found: ' + pathname)
-
       res.end()
       return
     }
@@ -109,14 +101,13 @@ const start = async (dirname: string, opts: Options) => {
     res.end()
   })
 
-  // try {
-  //   const server = await app.listen(socketPort + 2)
-  //   return server
-  // } catch (err) {
-  //   console.log(err)
-  //   throw err
-  // }
-  return app.listen(socketPort + 2)
+  try {
+    const server = await app.listen(socketPort + 2)
+    return server
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
 }
 
 const makeScript = (port: number) => `<script type='text/javascript'>

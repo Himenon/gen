@@ -1,5 +1,4 @@
 import * as dot from 'dot-prop'
-// @ts-ignore
 import * as glamor from 'glamor/server'
 import * as glamorous from 'glamorous'
 import * as React from 'react'
@@ -13,7 +12,7 @@ import { toComponent } from './jsx'
 import Markdown from './Markdown'
 import primitives from './primitives'
 
-import { Options } from './types'
+import { Content, Options } from './types'
 
 const h = React.createElement
 
@@ -134,14 +133,7 @@ const renderPage = (scope: any, opts: Options) => (page: any) => {
   }
 }
 
-export interface RenderArguments {
-  dirname?: string
-  theme: any
-  lab: any
-  pages: any[]
-}
-
-const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: RenderArguments, opts: Options) => {
+const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: Content, opts: Options) => {
   const library = lab.library || 'styled-components'
   const opts2 = {
     dirname,
