@@ -22,22 +22,32 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strict": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "baseUrl": "./src"
+    "baseUrl": "./",
+    "paths": {
+      "gray-matter": [
+        "./typings/grapy-matter" 
+      ],
+      "glamor*": [
+        "./typings/glamor*"
+      ],
+    },
   },
   "include": [
     "src/index.ts",
-    "src/cli.ts"
+    "src/cli.ts",
+    "typings"
   ],
   "exclude": [
     "./node_modules",
     "./dist",
     "jest"
   ],
+  "typeRoots": ["typings", "node_modules/@types"],
   "ordered-imports": [
     true,
     {
