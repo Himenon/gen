@@ -110,7 +110,7 @@ const start = async (dirname: string, opts: Options) => {
   }
 }
 
-const makeScript = (port: number) => `<script type='text/javascript'>
+const makeScript = (port: number) => `<script type='text/javascript'>H
 const socket = new WebSocket('ws://localhost:${port}')
 socket.onmessage = msg => {
   const data = JSON.parse(msg.data)

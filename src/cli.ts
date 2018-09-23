@@ -6,11 +6,12 @@ import * as meow from 'meow'
 import opn = require('opn')
 import * as path from 'path'
 import * as readPkgUp from 'read-pkg-up'
+import { UpdateNotifier } from 'update-notifier'
 
 import { Options } from './types'
 
 const pkg = require('../package.json')
-require('update-notifier')({ pkg }).notify()
+new UpdateNotifier({ pkg }).notify()
 
 import { getData, render, server, writePages } from './index'
 

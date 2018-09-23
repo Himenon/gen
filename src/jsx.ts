@@ -1,7 +1,7 @@
 // @ts-ignore
-import * as transformJSX from 'babel-plugin-transform-react-jsx'
+import * as transformJSX from '@babel/plugin-transform-react-jsx'
 // @ts-ignore
-import * as babel from 'babel-standalone'
+import * as babel from '@babel/standalone'
 import * as React from 'react'
 
 const parse = (raw: any) =>
