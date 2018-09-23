@@ -4,7 +4,7 @@ import loadJsonFile from 'load-json-file'
 import * as path from 'path'
 import { promisify } from 'util'
 
-import { Content, Options } from './types'
+import { Content, FirstPage, Options } from './types'
 
 const readdir = promisify(fs.readdir)
 
@@ -40,7 +40,7 @@ export const getContent = async (dirname: string, opts: Options): Promise<Conten
   }
 }
 
-const getPage = (dirname: string) => async (filename: string) => {
+const getPage = (dirname: string) => async (filename: string): Promise<FirstPage> => {
   const ext = path.extname(filename)
   const name = path.basename(filename, ext)
   // const raw = await readFile(path.join(dirname, filename), 'utf8')
@@ -57,7 +57,7 @@ const getPage = (dirname: string) => async (filename: string) => {
   }
 }
 
-const getLayout = (pages: any) => (page: any) => {
+const getLayout = (pages: FirstPage[]) => (page: FirstPage): FirstPage => {
   if (page.ext !== '.md') {
     return page
   }

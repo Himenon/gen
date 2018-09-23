@@ -12,7 +12,7 @@ import { toComponent } from './jsx'
 import Markdown from './Markdown'
 import primitives from './primitives'
 
-import { Content, Options } from './types'
+import { Content, FirstPage, Options, RenderPage } from './types'
 
 const h = React.createElement
 
@@ -67,7 +67,7 @@ const getLayout = (pages: any[] = [], data: any, scope: any) => {
   }
 }
 
-const renderPage = (scope: any, opts: Options) => (page: any) => {
+const renderPage = (scope: any, opts: Options) => (page: FirstPage): RenderPage => {
   const library = opts.library
   // @ts-ignore
   const Provider = themeProviders[library] || themeProviders.default
@@ -133,7 +133,7 @@ const renderPage = (scope: any, opts: Options) => (page: any) => {
   }
 }
 
-const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: Content, opts: Options) => {
+const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: Content, opts: Options): Promise<RenderPage[]> => {
   const library = lab.library || 'styled-components'
   const opts2 = {
     dirname,

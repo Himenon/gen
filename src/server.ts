@@ -9,9 +9,9 @@ import * as WebSocket from 'ws'
 
 import { getData } from './getData'
 import { render } from './render'
-import { Options } from './types'
+import { Options, RenderPage } from './types'
 
-const getPages = async (dirname: string, opts: Options) => {
+const getPages = async (dirname: string, opts: Options): Promise<RenderPage[]> => {
   const data = await getData(dirname, opts)
   const pages = await render(data, opts)
   return pages
@@ -89,7 +89,7 @@ const start = async (dirname: string, opts: Options) => {
     }
 
     const name = pathname === '/' ? 'index' : pathname.replace(/^\//, '').replace(/\/$/, '')
-    const page = gPages.find((localPage: any) => localPage.name === name)
+    const page: RenderPage | undefined = gPages.find((targetPage: RenderPage) => targetPage.name === name)
 
     if (!page) {
       res.write('page not found: ' + pathname)

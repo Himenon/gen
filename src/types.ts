@@ -17,6 +17,7 @@ export interface CreateHtmlData {
   twitter?: string
   scripts?: any
   stylesheets?: string
+  layout?: string
 }
 
 export interface CreateHtmlOption {
@@ -42,9 +43,24 @@ export interface GlamorousOptions {
   system: any[]
 }
 
+export interface FirstPage {
+  content: string
+  // ここかJSXの設定系
+  data: CreateHtmlData
+  ext: string
+  filename: string
+  name: string
+  raw: string
+  layoutJSX?: string
+}
+
+export interface RenderPage extends FirstPage {
+  html: string
+}
+
 export interface Content {
   dirname: any
   lab: any
-  pages: any
+  pages: FirstPage[]
   theme: any
 }
