@@ -11,6 +11,7 @@ const parse = (raw: string) =>
 
 const wrap = (jsx: string) => `<React.Fragment>${jsx}</React.Fragment>`
 
+// scopeに方が当てられるはず
 const toComponent = (jsx: string, scope = {}) => {
   const el = parse(wrap(jsx))
   const scopeKeys = Object.keys(scope)

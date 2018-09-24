@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "./lib/cli.js examples --out-dir .site",
-    "start": "./lib/cli.js examples -Do --port 9000 --library glamorous",
+    "start": "./lib/cli.js examples -Do --port 9000 --library styled-components",
     "dev": "tsc -p ./tsconfig.json --watch",
     "test": "nyc ava",
     "lint": "tslint -c tslint.json -p tsconfig.json",
@@ -51,7 +51,7 @@
     "remark-react": "^4.0.1",
     "remark-slug": "^5.1.0",
     "styled-components": "^3.4.9",
-    "styled-system": "^3.1.4",
+    "styled-system": "^3.1.6",
     "update-notifier": "^2.3.0",
     "ws": "^6.0.0"
   },

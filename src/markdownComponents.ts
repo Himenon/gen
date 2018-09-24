@@ -1,9 +1,8 @@
-import { createComponents } from './createComponents'
-import { Library } from './types'
+import { ComponentOption, createComponents } from './createComponents'
 
 const gray = 'rgba(0, 0, 0, .125)'
 
-export const markdownComponents = (opts: { library?: Library }) =>
+export const markdownComponents = (opts: ComponentOption) =>
   createComponents(
     [
       {

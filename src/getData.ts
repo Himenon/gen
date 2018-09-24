@@ -4,13 +4,13 @@ import loadJsonFile from 'load-json-file'
 import * as path from 'path'
 import { promisify } from 'util'
 
-import { Content, FirstPage, Options } from './types'
+import { Content, FirstPage, Lab, Options } from './types'
 
 const readdir = promisify(fs.readdir)
 
 export const getContent = async (dirname: string, opts: Options): Promise<Content> => {
-  let theme: any = {}
-  let lab: any = { components: [] }
+  let theme: object | unknown = {}
+  let lab: Lab = {}
   try {
     theme = await loadJsonFile(path.join(dirname, 'theme.json'))
   } catch (err) {
@@ -18,7 +18,7 @@ export const getContent = async (dirname: string, opts: Options): Promise<Conten
   }
 
   try {
-    lab = await loadJsonFile(path.join(dirname, 'lab.json'))
+    lab = await loadJsonFile<Lab>(path.join(dirname, 'lab.json'))
   } catch (err) {
     console.log('no lab.json found')
   }
@@ -64,7 +64,7 @@ const getLayout = (pages: FirstPage[]) => (page: FirstPage): FirstPage => {
   if (!page.data.layout) {
     return page
   }
-  const layout = pages.find((p: any) => p.name === page.data.layout)
+  const layout = pages.find((p: FirstPage) => p.name === page.data.layout)
   if (!layout) {
     return page
   }

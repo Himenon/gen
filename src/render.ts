@@ -67,6 +67,7 @@ const getLayout = (pages: any[] = [], data: any, scope: any) => {
   }
 }
 
+// theme,
 const renderPage = (scope: any, opts: Options) => (page: FirstPage): RenderPage => {
   const library = opts.library
   // @ts-ignore

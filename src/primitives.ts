@@ -1,6 +1,7 @@
 import { space, themeGet, width } from 'styled-system'
+import { ComponentConfig } from './types'
 
-export default [
+const primitives: ComponentConfig[] = [
   {
     name: 'Box',
     type: 'div',
@@ -21,7 +22,7 @@ export default [
     name: 'Grid',
     type: 'div',
     props: {},
-    style: (props: any) => ({
+    style: (props: ComponentConfig) => ({
       display: 'flex',
       flexWrap: 'wrap',
       // disable defaults from dxs
@@ -75,7 +76,7 @@ export default [
     name: 'Font',
     type: 'div',
     props: {},
-    style: (props: any) => ({
+    style: (props: ComponentConfig) => ({
       fontFamily: themeGet('fonts.0', 'sans-serif')(props),
       lineHeight: themeGet('lineHeight', '1.5')(props),
       color: themeGet('textColor')(props),
@@ -97,3 +98,5 @@ export default [
     system: [],
   },
 ]
+
+export default primitives

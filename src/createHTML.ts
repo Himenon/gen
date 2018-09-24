@@ -26,9 +26,9 @@ export default ({ data = {}, css = '', fontLinks = '', body = '' }: CreateHtmlOp
     .join('')
 }
 
-const getMeta = (data: any) => (key: string, name?: string) => (data[key] ? `<meta name='${name || key}' content='${data[key]}'>` : '')
+const getMeta = (data: object) => (key: string, name?: string) => (data[key] ? `<meta name='${name || key}' content='${data[key]}'>` : '')
 
-const getStylesheets = (stylesheets: any) =>
+const getStylesheets = (stylesheets?: string[]) =>
   Array.isArray(stylesheets) ? stylesheets.map(href => `<link rel='stylesheet' href='${href}'>`) : ''
 
 const getOG = (og = {}) =>
@@ -41,6 +41,6 @@ const getTwitterCard = (twitter = {}) =>
     .map(key => getMeta(twitter)(key, 'twitter:' + key))
     .join('')
 
-const getScripts = (scripts: any) => (Array.isArray(scripts) ? scripts.map(script => `<script>${script}</script>`) : '')
+const getScripts = (scripts?: string[]) => (Array.isArray(scripts) ? scripts.map(script => `<script>${script}</script>`) : '')
 
 const baseCSS = `*{box-sizing:border-box}body{margin:0}`

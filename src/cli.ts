@@ -2,6 +2,7 @@
 
 import chalk from 'chalk'
 import * as dot from 'dot-prop'
+import * as http from 'http'
 import * as meow from 'meow'
 import opn = require('opn')
 import * as path from 'path'
@@ -76,15 +77,22 @@ log('@compositor/gen')
 if (localOpts.dev) {
   log('starting dev server')
   server(localDirname, localOpts)
-    .then((srv: any) => {
-      const { port } = srv.address()
-      log(`listening on port: ${port}`)
-      const url = `http://localhost:${port}`
+    .then((srv: http.Server) => {
+      const address = srv.address()
+      let url: string
+      if (typeof address === 'string') {
+        log(`listening on ${address}`)
+        url = address
+      } else {
+        const { port } = address
+        log(`listening on port: ${port}`)
+        url = `http://localhost:${port}`
+      }
       if (localOpts.open) {
         opn(url)
       }
     })
-    .catch((err: any) => {
+    .catch((err: Error) => {
       log('error', err)
       process.exit(1)
     })
