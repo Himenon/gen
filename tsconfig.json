@@ -35,6 +35,9 @@
       "glamor*": [
         "./typings/glamor*"
       ],
+      "@compositor*": [
+        "./typings/@compositor*"
+      ]
     },
   },
   "include": [

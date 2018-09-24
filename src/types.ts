@@ -86,9 +86,10 @@ export type ScopedName =
   | 'H2'
   | 'H3'
   | 'DefaultLayout'
+  | 'theme'
 export type ScopedType = 'h1' | 'h2' | 'h3' | 'a' | 'p' | 'pre' | 'code' | 'table' | 'hr' | 'blockquote' | 'div' | 'Box' | 'img'
 
-export type ScopedComponent = any
+export type ScopedComponent = any | Theme
 export type ScopedComponents = { [key in ScopedName]?: ScopedComponent }
 export type MappedScope = { [key in ScopedType]?: ScopedComponent }
 
@@ -120,9 +121,11 @@ export interface Lab {
   components?: ComponentConfig[]
 }
 
+export type Theme = object
+
 export interface Content {
   dirname: string
   lab: Lab
   pages: FirstPage[]
-  theme: object | unknown
+  theme: Theme | unknown
 }
