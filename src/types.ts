@@ -66,9 +66,35 @@ export interface FirstPage {
 
 export type GenImporter = any
 
+export type ScopedName =
+  | 'Title'
+  | 'Heading'
+  | 'Subhead'
+  | 'Pre'
+  | 'Code'
+  | 'Table'
+  | 'Divider'
+  | 'Blockquote'
+  | 'Box'
+  | 'Flex'
+  | 'Grid'
+  | 'Text'
+  | 'Link'
+  | 'Image'
+  | 'Font'
+  | 'H1'
+  | 'H2'
+  | 'H3'
+  | 'DefaultLayout'
+export type ScopedType = 'h1' | 'h2' | 'h3' | 'a' | 'p' | 'pre' | 'code' | 'table' | 'hr' | 'blockquote' | 'div' | 'Box' | 'img'
+
+export type ScopedComponent = any
+export type ScopedComponents = { [key in ScopedName]?: ScopedComponent }
+export type MappedScope = { [key in ScopedType]?: ScopedComponent }
+
 export interface ComponentConfig {
-  name: string
-  type?: string
+  name: ScopedName
+  type?: ScopedType
   style: any
   props: {
     fontSize?: number

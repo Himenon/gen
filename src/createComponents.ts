@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import * as styledSystem from 'styled-system'
 
 import { toComponent } from './jsx'
-import { ComponentConfig, GenImporter, GlamorousOptions, Options2, StyledOptions } from './types'
+import { ComponentConfig, GenImporter, GlamorousOptions, Options2, ScopedComponent, ScopedComponents, StyledOptions } from './types'
 
 /**
  * styled-componentsまたはglamorousのどちらかでCSSをつける
  */
-const componentCreators = {
+const componentCreators: { [key: string]: (comp: any, lib: object) => ScopedComponent } = {
   glamorous: ({ name, type, style, props, system = [] }: GlamorousOptions, lib: object) => {
     // todo: DRY up
     const tag = lib[type] || type
@@ -47,7 +47,7 @@ const createScope = (imports: GenImporter[], lib: object) =>
       {},
     )
 
-export const createComposite = (comp: ComponentConfig, lib: object) => {
+export const createComposite = (comp: ComponentConfig, lib: object): ScopedComponent => {
   // todo npm/local modules scope
   const scope = createScope(comp.imports!, lib)
   const Comp = toComponent(comp.jsx!, scope)
@@ -65,14 +65,13 @@ const isComposite = ({ type, imports, jsx }: ComponentConfig) => !type && import
 const isExternal = ({ external }: ComponentConfig) => external
 
 const mergeComponents = (create: any) => (a: object, comp: ComponentConfig) => {
-  const result = {
+  return {
     ...a,
     [comp.name]: create(comp, a),
   }
-  return result
 }
 
-const createComponent = (opts: Options2) => (comp: ComponentConfig, lib: object): null | React.Component<ComponentConfig['props']> => {
+const createComponent = (opts: Options2) => (comp: ComponentConfig, lib: object): null | ScopedComponent => {
   if (isExternal(comp)) {
     return null
   }
@@ -89,7 +88,12 @@ const createComponent = (opts: Options2) => (comp: ComponentConfig, lib: object)
   return sx(comp, lib)
 }
 
-export const createComponents = (config: ComponentConfig[] = [], opts: Options2 = {}) => {
+/**
+ * Scopeを返す
+ * @param config
+ * @param opts
+ */
+export const createComponents = (config: ComponentConfig[] = [], opts: Options2 = {}): ScopedComponents => {
   const base = config.filter(isBase)
   const extensions = config.filter(isExtension)
   const composites = config.filter(isComposite)

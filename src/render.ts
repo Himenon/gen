@@ -24,13 +24,13 @@ const themeProviders = {
 // themeProviders.default = themeProviders['styled-components']
 
 const cssCreators = {
-  'styled-components': (Component: any, props: any) => {
+  'styled-components': (Component: React.ComponentClass, props: any) => {
     const sheet = new SC.ServerStyleSheet()
     renderToStaticMarkup(sheet.collectStyles(h(Component, props)))
     const tags = sheet.getStyleTags()
     return tags
   },
-  glamorous: (Component: any, props: any) => {
+  glamorous: (Component: React.ComponentClass, props: any) => {
     const { css } = glamor.renderStatic(() => renderToString(React.createElement(Component, props)))
     const tag = `<style>${css}</style>`
     return tag

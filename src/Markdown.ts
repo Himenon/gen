@@ -7,7 +7,7 @@ import * as remarkReact from 'remark-react'
 import * as remarkSlug from 'remark-slug'
 
 import { markdownComponents } from './markdownComponents'
-import { MarkdownProps } from './types'
+import { MappedScope, MarkdownProps, ScopedComponents } from './types'
 
 const heading = (Comp: keyof React.ReactHTML) => (props: any) => {
   return React.createElement(
@@ -74,7 +74,7 @@ class Markdown extends React.Component<MarkdownProps, {}> {
     return element
   }
 
-  private mapScope = (scope: any) => {
+  private mapScope = (scope: ScopedComponents): MappedScope => {
     const comps = {
       a: link(scope.Link),
       blockquote: scope.Blockquote,
@@ -91,7 +91,7 @@ class Markdown extends React.Component<MarkdownProps, {}> {
     return comps
   }
 
-  private applyProps = (scope: any) => {
+  private applyProps = (scope: MappedScope) => {
     const { options = {} } = this.props
     // @ts-ignore
     const props = { ...defaultProps, ...options.markdownProps }
