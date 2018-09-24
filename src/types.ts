@@ -121,7 +121,9 @@ export interface Lab {
   components?: ComponentConfig[]
 }
 
-export type Theme = object
+export interface Theme {
+  [key: string]: unknown
+}
 
 export interface Content {
   dirname: string

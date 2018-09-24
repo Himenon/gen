@@ -5,11 +5,15 @@ import * as styledSystem from 'styled-system'
 import { toComponent } from './jsx'
 import { ComponentConfig, GenImporter, GlamorousOptions, Options2, ScopedComponent, ScopedComponents, StyledOptions } from './types'
 
+interface Lib {
+  type: JSX.IntrinsicElements
+}
+
 /**
  * styled-componentsまたはglamorousのどちらかでCSSをつける
  */
-const componentCreators: { [key: string]: (comp: any, lib: object) => ScopedComponent } = {
-  glamorous: ({ name, type, style, props, system = [] }: GlamorousOptions, lib: object) => {
+const componentCreators: { [key: string]: (comp: any, lib: Lib) => ScopedComponent } = {
+  glamorous: ({ name, type, style, props, system = [] }: GlamorousOptions, lib: object): ScopedComponent => {
     // todo: DRY up
     const tag = lib[type] || type
     const funcs = getFunctions(system)
@@ -20,7 +24,7 @@ const componentCreators: { [key: string]: (comp: any, lib: object) => ScopedComp
 
     return Comp
   },
-  'styled-components': ({ name, type, style, props, system = [] }: StyledOptions, lib: object) => {
+  'styled-components': ({ name, type, style, props, system = [] }: StyledOptions, lib: Lib): ScopedComponent => {
     const tag = lib[type] || type
     const funcs = getFunctions(system)
     // @ts-ignore
@@ -71,7 +75,7 @@ const mergeComponents = (create: any) => (a: object, comp: ComponentConfig) => {
   }
 }
 
-const createComponent = (opts: Options2) => (comp: ComponentConfig, lib: object): null | ScopedComponent => {
+const createComponent = (opts: Options2) => (comp: ComponentConfig, lib: Lib): null | ScopedComponent => {
   if (isExternal(comp)) {
     return null
   }

@@ -7,9 +7,9 @@ import * as remarkReact from 'remark-react'
 import * as remarkSlug from 'remark-slug'
 
 import { markdownComponents } from './markdownComponents'
-import { MappedScope, MarkdownProps, ScopedComponents } from './types'
+import { MappedScope, MarkdownProps, ScopedComponent, ScopedComponents } from './types'
 
-const heading = (Comp: keyof React.ReactHTML) => (props: any) => {
+const heading = (Comp: ScopedComponent) => (props: any): React.ReactNode => {
   return React.createElement(
     Comp,
     props,
@@ -29,7 +29,7 @@ const heading = (Comp: keyof React.ReactHTML) => (props: any) => {
 
 const relativize = (href: string) => (/\.md$/.test(href) ? href.replace(/\.md$/, '/') : href)
 
-const link = (Comp: keyof React.ReactHTML) => (props: any) =>
+const link = (Comp: ScopedComponent) => (props: any) =>
   React.createElement(Comp, {
     ...props,
     href: relativize(props.href),
@@ -75,20 +75,22 @@ class Markdown extends React.Component<MarkdownProps, {}> {
   }
 
   private mapScope = (scope: ScopedComponents): MappedScope => {
-    const comps = {
-      a: link(scope.Link),
+    const a = scope.Link
+    const h1 = scope.Title || scope.Heading || scope.H1
+    const h2 = scope.Heading || scope.H2
+    const h3 = scope.Subhead || scope.H3
+    return {
+      a: a ? link(a) : undefined,
       blockquote: scope.Blockquote,
       code: scope.Code,
-      h1: heading(scope.Title || scope.Heading || scope.H1),
-      h2: heading(scope.Heading || scope.H2),
-      h3: heading(scope.Subhead || scope.H3),
+      h1: h1 ? heading(h1) : undefined,
+      h2: h2 ? heading(h2) : undefined,
+      h3: h3 ? heading(h3) : undefined,
       hr: scope.Divider,
       p: scope.Text,
       pre: scope.Pre,
       table: scope.Table,
     }
-
-    return comps
   }
 
   private applyProps = (scope: MappedScope) => {
