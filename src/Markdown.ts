@@ -1,12 +1,15 @@
 import * as React from 'react'
-const remark = require('remark')
-const remarkSlug = require('remark-slug')
-const remarkReact = require('remark-react')
+// @ts-ignore
+import * as remark from 'remark'
+// @ts-ignore
+import * as remarkReact from 'remark-react'
+// @ts-ignore
+import * as remarkSlug from 'remark-slug'
 
 import { markdownComponents } from './markdownComponents'
 import { MarkdownProps } from './types'
 
-const heading = (Comp: any) => (props: any) => {
+const heading = (Comp: keyof React.ReactHTML) => (props: any) => {
   return React.createElement(
     Comp,
     props,
@@ -26,13 +29,13 @@ const heading = (Comp: any) => (props: any) => {
 
 const relativize = (href: string) => (/\.md$/.test(href) ? href.replace(/\.md$/, '/') : href)
 
-const link = (Comp: any) => (props: any) =>
+const link = (Comp: keyof React.ReactHTML) => (props: any) =>
   React.createElement(Comp, {
     ...props,
     href: relativize(props.href),
   })
 
-const defaultProps = {
+const defaultProps: MarkdownProps = {
   h1: {
     mb: 3,
     mt: 4,

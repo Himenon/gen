@@ -1,5 +1,7 @@
 export type Options = any
 
+export type Library = string
+
 export interface MarkdownProps {
   h1: { [key in string]: number }
   h2: { [key in string]: number }
@@ -7,8 +9,8 @@ export interface MarkdownProps {
   p: { [key in string]: number }
   options?: { [key in string]: number }
   text?: string
-  scope: any
-  library: any
+  scope?: any
+  library?: Library
 }
 
 export interface CreateHtmlData {

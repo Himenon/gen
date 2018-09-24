@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import * as styledSystem from 'styled-system'
 
 const { toComponent } = require('./jsx')
-import { GlamorousOptions, StyledOptions } from './types'
+import { GlamorousOptions, Library, StyledOptions } from './types'
 
 const componentCreators = {
   glamorous: ({ name, type, style, props, system = [] }: GlamorousOptions, lib: any) => {
@@ -55,29 +55,31 @@ export const createComposite = (comp: any, lib: any) => {
 
 const defaultFuncs = ['space', 'fontSize', 'width', 'color']
 
-export interface MyType {
-  type: string
-}
-export interface CompositeType {
-  type: string
-  imports: any
-  jsx: JSX.Element
-}
-
 const getFunctions = (funcs: any) => [...defaultFuncs, ...funcs].map(key => styledSystem[key]).filter(func => typeof func === 'function')
 
-const isBase = ({ type }: MyType) => type && /[a-z]/.test(type)
-const isExtension = ({ type }: MyType) => type && /[A-Z]/.test(type)
-const isComposite = ({ type, imports, jsx }: CompositeType) => !type && imports && jsx
-const isExternal = ({ external }: { external: any }) => external
+const isBase = ({ type }: CompositeComponent) => type && /[a-z]/.test(type)
+const isExtension = ({ type }: CompositeComponent) => type && /[A-Z]/.test(type)
+const isComposite = ({ type, imports, jsx }: CompositeComponent) => !type && imports && jsx
+const isExternal = ({ external }: CompositeComponent) => external
 
-const mergeComponents = (create: any) => (a: any, comp: any) => ({
+const mergeComponents = (create: any) => (a: object, comp: any) => ({
   ...a,
 
   [comp.name]: create(comp, a),
 })
 
-const createComponent = (opts: any) => (comp: any, lib: any) => {
+export interface CompositeComponent {
+  name?: string
+  props: object
+  style?: object
+  system: string[]
+  type?: string
+  imports: any
+  jsx: JSX.Element
+  external?: any
+}
+
+const createComponent = (opts: { library?: Library }) => (comp: CompositeComponent, lib: object): null | any => {
   if (isExternal(comp)) {
     return null
   }

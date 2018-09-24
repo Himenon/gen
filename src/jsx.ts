@@ -4,14 +4,14 @@ import * as transformJSX from '@babel/plugin-transform-react-jsx'
 import * as babel from '@babel/standalone'
 import * as React from 'react'
 
-const parse = (raw: any) =>
+const parse = (raw: string) =>
   babel.transform(raw, {
     plugins: [transformJSX],
   }).code
 
-const wrap = (jsx: any) => `<React.Fragment>${jsx}</React.Fragment>`
+const wrap = (jsx: string) => `<React.Fragment>${jsx}</React.Fragment>`
 
-const toComponent = (jsx: any, scope = {}) => {
+const toComponent = (jsx: string, scope = {}) => {
   const el = parse(wrap(jsx))
   const scopeKeys = Object.keys(scope)
   const scopeValues = scopeKeys.map(key => scope[key])
