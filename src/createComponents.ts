@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import * as styledSystem from 'styled-system'
 
 import { toComponent } from './jsx'
-import { ComponentConfig, GenImporter, GlamorousOptions, Library, StyledOptions } from './types'
+import { ComponentConfig, GenImporter, GlamorousOptions, Options2, StyledOptions } from './types'
 
 /**
  * styled-componentsまたはglamorousのどちらかでCSSをつける
@@ -72,14 +72,7 @@ const mergeComponents = (create: any) => (a: object, comp: ComponentConfig) => {
   return result
 }
 
-export interface ComponentOption {
-  library?: Library
-}
-
-const createComponent = (opts: ComponentOption) => (
-  comp: ComponentConfig,
-  lib: object,
-): null | React.Component<ComponentConfig['props']> => {
+const createComponent = (opts: Options2) => (comp: ComponentConfig, lib: object): null | React.Component<ComponentConfig['props']> => {
   if (isExternal(comp)) {
     return null
   }
@@ -96,7 +89,7 @@ const createComponent = (opts: ComponentOption) => (
   return sx(comp, lib)
 }
 
-export const createComponents = (config: ComponentConfig[] = [], opts: ComponentOption = {}) => {
+export const createComponents = (config: ComponentConfig[] = [], opts: Options2 = {}) => {
   const base = config.filter(isBase)
   const extensions = config.filter(isExtension)
   const composites = config.filter(isComposite)

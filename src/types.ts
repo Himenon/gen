@@ -1,6 +1,12 @@
 import { SpaceProps } from 'styled-system'
 
 export type Options = any
+export interface Options2 extends Options {
+  dirname?: string
+  library?: Library
+  pages?: FirstPage[]
+  lab?: Lab
+}
 
 export type Library = string
 

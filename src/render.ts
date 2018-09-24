@@ -12,7 +12,7 @@ import { toComponent } from './jsx'
 import Markdown from './Markdown'
 import primitives from './primitives'
 
-import { Content, FirstPage, Options, RenderPage } from './types'
+import { Content, CreateHtmlData, FirstPage, Options, Options2, RenderPage } from './types'
 
 const h = React.createElement
 
@@ -41,16 +41,11 @@ const cssCreators = {
 // cssCreators.default = cssCreators['styled-components']
 // cssCreators.glamor = cssCreators.glamorous
 
-interface LayoutInterface {
-  content: any
-  ext: string
-}
-
-const getLayout = (pages: any[] = [], data: any, scope: any) => {
+const getLayout = (pages: FirstPage[] = [], data: CreateHtmlData, scope: any) => {
   if (!data.layout) {
     return scope.DefaultLayout
   }
-  const layout: LayoutInterface | undefined = pages.find((page: { name: any }) => page.name === data.layout)
+  const layout: FirstPage | undefined = pages.find(page => page.name === data.layout)
 
   if (!layout || layout.ext !== '.jsx') {
     return scope.DefaultLayout
@@ -68,7 +63,7 @@ const getLayout = (pages: any[] = [], data: any, scope: any) => {
 }
 
 // theme,
-const renderPage = (scope: any, opts: Options) => (page: FirstPage): RenderPage => {
+const renderPage = (scope: any, opts: Options2) => (page: FirstPage): RenderPage => {
   const library = opts.library
   // @ts-ignore
   const Provider = themeProviders[library] || themeProviders.default
@@ -136,7 +131,7 @@ const renderPage = (scope: any, opts: Options) => (page: FirstPage): RenderPage 
 
 const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: Content, opts: Options): Promise<RenderPage[]> => {
   const library = lab.library || 'styled-components'
-  const opts2 = {
+  const opts2: Options2 = {
     dirname,
     library,
     pages,
