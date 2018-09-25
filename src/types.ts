@@ -10,6 +10,8 @@ export interface Options2 extends Options {
 
 export type Library = string
 
+export type Lib = ComponentConfig | {}
+
 export interface MarkdownProps {
   h1: { [keys: string]: number }
   h2: { [keys: string]: number }
@@ -35,22 +37,6 @@ export interface CreateHtmlOption {
   css: string
   fontLinks: string
   body: string
-}
-
-export interface StyledOptions {
-  name: string
-  type: string
-  style: string
-  props: string
-  system: any[]
-}
-
-export interface GlamorousOptions {
-  name: string
-  type: string
-  style: any
-  props: any
-  system: any[]
 }
 
 export interface FirstPage {
@@ -87,7 +73,7 @@ export type ScopedName =
   | 'H3'
   | 'DefaultLayout'
   | 'theme'
-export type ScopedType = 'h1' | 'h2' | 'h3' | 'a' | 'p' | 'pre' | 'code' | 'table' | 'hr' | 'blockquote' | 'div' | 'Box' | 'img'
+export type ScopedType = 'Box' | keyof JSX.IntrinsicElements
 
 export type ScopedComponent = any | Theme
 export type ScopedComponents = { [key in ScopedName]?: ScopedComponent }
@@ -95,7 +81,7 @@ export type MappedScope = { [key in ScopedType]?: ScopedComponent }
 
 export interface ComponentConfig {
   name: ScopedName
-  type?: ScopedType
+  type: ScopedType
   style: any
   props: {
     fontSize?: number

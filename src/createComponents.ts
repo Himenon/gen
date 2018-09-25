@@ -1,19 +1,20 @@
 import glamorous from 'glamorous'
 import styled from 'styled-components'
 import * as styledSystem from 'styled-system'
-
 import { toComponent } from './jsx'
-import { ComponentConfig, GenImporter, GlamorousOptions, Options2, ScopedComponent, ScopedComponents, StyledOptions } from './types'
+import { ComponentConfig, GenImporter, Lib, Options2, ScopedComponent, ScopedComponents } from './types'
 
-interface Lib {
-  type: JSX.IntrinsicElements
+class EmptyTemplateStringsArray extends Array implements TemplateStringsArray {
+  public readonly raw = []
 }
+
+// type CreateFunction = (comp: ComponentConfig, lib: Lib) => null | ScopedComponent;
 
 /**
  * styled-componentsまたはglamorousのどちらかでCSSをつける
  */
-const componentCreators: { [key: string]: (comp: any, lib: Lib) => ScopedComponent } = {
-  glamorous: ({ name, type, style, props, system = [] }: GlamorousOptions, lib: object): ScopedComponent => {
+const componentCreators: { [key: string]: (comp: ComponentConfig, lib: Lib) => ScopedComponent } = {
+  glamorous: ({ name, type, style, props, system = [] }, lib) => {
     // todo: DRY up
     const tag = lib[type] || type
     const funcs = getFunctions(system)
@@ -24,12 +25,10 @@ const componentCreators: { [key: string]: (comp: any, lib: Lib) => ScopedCompone
 
     return Comp
   },
-  'styled-components': ({ name, type, style, props, system = [] }: StyledOptions, lib: Lib): ScopedComponent => {
+  'styled-components': ({ name, type, style, props, system = [] }, lib) => {
     const tag = lib[type] || type
     const funcs = getFunctions(system)
-    // @ts-ignore
-    const Comp = styled(tag)([], style, ...funcs)
-
+    const Comp = styled(tag)(new EmptyTemplateStringsArray(), style, ...funcs)
     Comp.defaultProps = props
     Comp.displayName = name
 
@@ -68,10 +67,13 @@ const isExtension = ({ type }: ComponentConfig) => type && /[A-Z]/.test(type)
 const isComposite = ({ type, imports, jsx }: ComponentConfig) => !type && imports && jsx
 const isExternal = ({ external }: ComponentConfig) => external
 
-const mergeComponents = (create: any) => (a: object, comp: ComponentConfig) => {
+const mergeComponents = (create: (comp: ComponentConfig, lib: Lib) => null | ScopedComponent) => (
+  prevComp: ComponentConfig | {},
+  nextComp: ComponentConfig,
+) => {
   return {
-    ...a,
-    [comp.name]: create(comp, a),
+    ...prevComp,
+    [nextComp.name]: create(nextComp, prevComp),
   }
 }
 
