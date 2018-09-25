@@ -17,9 +17,9 @@ export interface MarkdownProps {
   h2: { [keys: string]: number }
   h3: { [keys: string]: number }
   p: { [keys: string]: number }
-  options?: { [keys: string]: number }
+  options?: { [keys: string]: object }
   text?: string
-  scope?: any
+  scope?: ScopedComponents
   library?: Library
 }
 
@@ -27,7 +27,7 @@ export interface CreateHtmlData {
   title?: string
   og?: string
   twitter?: string
-  scripts?: any
+  scripts?: string[]
   stylesheets?: string[]
   layout?: string
 }
@@ -79,10 +79,26 @@ export type ScopedComponent = any | Theme
 export type ScopedComponents = { [key in ScopedName]?: ScopedComponent }
 export type MappedScope = { [key in ScopedType]?: ScopedComponent }
 
+export interface HeadingProps {
+  id: string
+  children?: React.ReactNode[]
+}
+
+export interface AnchorProps {
+  href: string
+  children?: React.ReactNode[]
+}
+
+// tslint:disable
+export type BasicComponentProps = {}
+export type Style = { [key: string]: string | number | Style }
+export type GenerateStyle = (props: any) => Style
+
 export interface ComponentConfig {
   name: ScopedName
   type: ScopedType
-  style: any
+  style: Style | GenerateStyle
+  // props: ComponentProps & SpaceProps
   props: {
     fontSize?: number
     fontWeight?: string
@@ -95,7 +111,7 @@ export interface ComponentConfig {
   system?: string[]
   imports?: GenImporter[]
   jsx?: string
-  external?: any
+  external?: any // Unknown
 }
 
 export interface RenderPage extends FirstPage {

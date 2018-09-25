@@ -7,9 +7,9 @@ import * as remarkReact from 'remark-react'
 import * as remarkSlug from 'remark-slug'
 
 import { markdownComponents } from './markdownComponents'
-import { MappedScope, MarkdownProps, ScopedComponent, ScopedComponents } from './types'
+import { AnchorProps, HeadingProps, MappedScope, MarkdownProps, ScopedComponent, ScopedComponents } from './types'
 
-const heading = (Comp: ScopedComponent) => (props: any): React.ReactNode => {
+const heading = (Comp: ScopedComponent) => (props: HeadingProps): React.ReactNode => {
   return React.createElement(
     Comp,
     props,
@@ -29,7 +29,7 @@ const heading = (Comp: ScopedComponent) => (props: any): React.ReactNode => {
 
 const relativize = (href: string) => (/\.md$/.test(href) ? href.replace(/\.md$/, '/') : href)
 
-const link = (Comp: ScopedComponent) => (props: any) =>
+const link = (Comp: ScopedComponent) => (props: AnchorProps) =>
   React.createElement(Comp, {
     ...props,
     href: relativize(props.href),
@@ -95,7 +95,6 @@ class Markdown extends React.Component<MarkdownProps, {}> {
 
   private applyProps = (scope: MappedScope) => {
     const { options = {} } = this.props
-    // @ts-ignore
     const props = { ...defaultProps, ...options.markdownProps }
     Object.keys(props).forEach(key => {
       if (!scope[key]) {

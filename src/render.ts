@@ -12,7 +12,7 @@ import { toComponent } from './jsx'
 import Markdown from './Markdown'
 import primitives from './primitives'
 
-import { Content, CreateHtmlData, FirstPage, Options, Options2, RenderPage, ScopedComponents } from './types'
+import { BasicComponentProps, Content, CreateHtmlData, FirstPage, Options, Options2, RenderPage, ScopedComponents } from './types'
 
 const h = React.createElement
 
@@ -22,14 +22,14 @@ const themeProviders = {
 }
 
 const cssCreators = {
-  'styled-components': (Component: React.ComponentClass, props: any) => {
+  'styled-components': (Component: React.ComponentClass, props: BasicComponentProps) => {
     const sheet = new SC.ServerStyleSheet()
     renderToStaticMarkup(sheet.collectStyles(h(Component, props)))
     const tags = sheet.getStyleTags()
     return tags
   },
-  glamorous: (Component: React.ComponentClass, props: any) => {
-    const { css } = glamor.renderStatic(() => renderToString(React.createElement(Component, props)))
+  glamorous: (Component: React.ComponentClass, props: BasicComponentProps) => {
+    const { css } = glamor.renderStatic(() => renderToString(h(Component, props)))
     const tag = `<style>${css}</style>`
     return tag
   },
@@ -59,10 +59,8 @@ const getLayout = (pages: FirstPage[] = [], data: CreateHtmlData, scope: ScopedC
 // theme,
 const renderPage = (scope: ScopedComponents, opts: Options2) => (page: FirstPage): RenderPage => {
   const library = opts.library
-  // @ts-ignore
-  const Provider = themeProviders[library] || themeProviders.default
-  // @ts-ignore
-  const getCSS = cssCreators[library] || cssCreators['styled-components']
+  const Provider = (library && themeProviders[library]) || themeProviders['styled-components']
+  const getCSS = (library && cssCreators[library]) || cssCreators['styled-components']
 
   const Layout = page.ext === '.md' ? getLayout(opts.pages, page.data, scope) : React.Fragment
   const pageScope = {
