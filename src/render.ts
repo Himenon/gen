@@ -21,14 +21,16 @@ const themeProviders = {
   glamorous: glamorous.ThemeProvider,
 }
 
-const cssCreators = {
-  'styled-components': (Component: React.ComponentClass, props: BasicComponentProps) => {
+type CssCreator = (Component: React.ComponentClass, props: BasicComponentProps) => string
+
+const cssCreators: { [key: string]: CssCreator } = {
+  'styled-components': (Component, props) => {
     const sheet = new SC.ServerStyleSheet()
     renderToStaticMarkup(sheet.collectStyles(h(Component, props)))
     const tags = sheet.getStyleTags()
     return tags
   },
-  glamorous: (Component: React.ComponentClass, props: BasicComponentProps) => {
+  glamorous: (Component, props) => {
     const { css } = glamor.renderStatic(() => renderToString(h(Component, props)))
     const tag = `<style>${css}</style>`
     return tag
@@ -60,7 +62,7 @@ const getLayout = (pages: FirstPage[] = [], data: CreateHtmlData, scope: ScopedC
 const renderPage = (scope: ScopedComponents, opts: Options2) => (page: FirstPage): RenderPage => {
   const library = opts.library
   const Provider = (library && themeProviders[library]) || themeProviders['styled-components']
-  const getCSS = (library && cssCreators[library]) || cssCreators['styled-components']
+  const getCSS: CssCreator = (library && cssCreators[library]) || cssCreators['styled-components']
 
   const Layout = page.ext === '.md' ? getLayout(opts.pages, page.data, scope) : React.Fragment
   const pageScope = {

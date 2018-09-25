@@ -4,15 +4,15 @@ import loadJsonFile from 'load-json-file'
 import * as path from 'path'
 import { promisify } from 'util'
 
-import { Content, FirstPage, Lab, Options } from './types'
+import { Content, FirstPage, Lab, Options, Theme } from './types'
 
 const readdir = promisify(fs.readdir)
 
 export const getContent = async (dirname: string, opts: Options): Promise<Content> => {
-  let theme: object | unknown = {}
+  let theme: Theme | unknown = {}
   let lab: Lab = {}
   try {
-    theme = await loadJsonFile(path.join(dirname, 'theme.json'))
+    theme = await loadJsonFile<Theme>(path.join(dirname, 'theme.json'))
   } catch (err) {
     console.log('no theme.json found')
   }

@@ -13,20 +13,21 @@ export type Library = string
 export type Lib = ComponentConfig | {}
 
 export interface MarkdownProps {
-  h1: { [keys: string]: number }
-  h2: { [keys: string]: number }
-  h3: { [keys: string]: number }
-  p: { [keys: string]: number }
-  options?: { [keys: string]: object }
+  h1: { [key: string]: number }
+  h2: { [key: string]: number }
+  h3: { [key: string]: number }
+  p: { [key: string]: number }
+  options?: { [key: string]: object }
   text?: string
   scope?: ScopedComponents
   library?: Library
 }
 
 export interface CreateHtmlData {
+  description?: string
   title?: string
-  og?: string
-  twitter?: string
+  og?: { [key: string]: string }
+  twitter?: { [key: string]: string }
   scripts?: string[]
   stylesheets?: string[]
   layout?: string
@@ -89,9 +90,10 @@ export interface AnchorProps {
   children?: React.ReactNode[]
 }
 
-// tslint:disable
-export type BasicComponentProps = {}
-export type Style = { [key: string]: string | number | Style }
+export type BasicComponentProps = CreateHtmlData & React.Attributes
+export interface Style {
+  [key: string]: string | number | Style
+}
 export type GenerateStyle = (props: any) => Style
 
 export interface ComponentConfig {

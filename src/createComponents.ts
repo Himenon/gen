@@ -36,7 +36,7 @@ const componentCreators: { [key: string]: (comp: ComponentConfig, lib: Lib) => S
   },
 }
 
-const createScope = (imports: GenImporter[], lib: object) =>
+const createScope = (imports: GenImporter[], lib: Lib) =>
   imports
     .map((key: string) => ({
       key,
@@ -50,7 +50,7 @@ const createScope = (imports: GenImporter[], lib: object) =>
       {},
     )
 
-export const createComposite = (comp: ComponentConfig, lib: object): ScopedComponent => {
+export const createComposite = (comp: ComponentConfig, lib: Lib): ScopedComponent => {
   // todo npm/local modules scope
   const scope = createScope(comp.imports!, lib)
   const Comp = toComponent(comp.jsx!, scope)

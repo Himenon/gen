@@ -4,6 +4,8 @@ import * as transformJSX from '@babel/plugin-transform-react-jsx'
 import * as babel from '@babel/standalone'
 import * as React from 'react'
 
+import { ScopedComponents } from './types'
+
 const parse = (raw: string) =>
   babel.transform(raw, {
     plugins: [transformJSX],
@@ -11,8 +13,7 @@ const parse = (raw: string) =>
 
 const wrap = (jsx: string) => `<React.Fragment>${jsx}</React.Fragment>`
 
-// scopeに方が当てられるはず
-const toComponent = (jsx: string, scope = {}) => {
+const toComponent = (jsx: string, scope: ScopedComponents = {}) => {
   const el = parse(wrap(jsx))
   const scopeKeys = Object.keys(scope)
   const scopeValues = scopeKeys.map(key => scope[key])

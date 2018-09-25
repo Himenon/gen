@@ -1,4 +1,4 @@
-import { CreateHtmlOption } from './types'
+import { CreateHtmlData, CreateHtmlOption } from './types'
 
 export default ({ data = {}, css = '', fontLinks = '', body = '' }: CreateHtmlOption) => {
   const meta = getMeta(data)
@@ -26,21 +26,23 @@ export default ({ data = {}, css = '', fontLinks = '', body = '' }: CreateHtmlOp
     .join('')
 }
 
-const getMeta = (data: object) => (key: string, name?: string) => (data[key] ? `<meta name='${name || key}' content='${data[key]}'>` : '')
+const getMeta = (data: CreateHtmlData) => (key: string, name?: string) =>
+  data[key] ? `<meta name='${name || key}' content='${data[key]}'>` : ''
 
-const getStylesheets = (stylesheets?: string[]) =>
+const getStylesheets = (stylesheets?: CreateHtmlData['stylesheets']) =>
   Array.isArray(stylesheets) ? stylesheets.map(href => `<link rel='stylesheet' href='${href}'>`) : ''
 
-const getOG = (og = {}) =>
+const getOG = (og: CreateHtmlData['og'] = {}) =>
   Object.keys(og || {})
     .map(key => getMeta(og)(key, 'og:' + key))
     .join('')
 
-const getTwitterCard = (twitter = {}) =>
+const getTwitterCard = (twitter: CreateHtmlData['twitter'] = {}) =>
   Object.keys(twitter || {})
     .map(key => getMeta(twitter)(key, 'twitter:' + key))
     .join('')
 
-const getScripts = (scripts?: string[]) => (Array.isArray(scripts) ? scripts.map(script => `<script>${script}</script>`) : '')
+const getScripts = (scripts?: CreateHtmlData['scripts']) =>
+  Array.isArray(scripts) ? scripts.map(script => `<script>${script}</script>`) : ''
 
 const baseCSS = `*{box-sizing:border-box}body{margin:0}`
