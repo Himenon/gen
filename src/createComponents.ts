@@ -2,7 +2,9 @@ import glamorous from 'glamorous'
 import styled from 'styled-components'
 import * as styledSystem from 'styled-system'
 import { toComponent } from './jsx'
-import { ComponentConfig, GenImporter, Lib, Options2, ScopedComponent, ScopedComponents } from './types'
+import { ComponentConfig, GenImporter, Options2, ScopedComponent, ScopedComponents } from './types'
+
+export type Lib = ComponentConfig | {}
 
 class EmptyTemplateStringsArray extends Array implements TemplateStringsArray {
   public readonly raw = []

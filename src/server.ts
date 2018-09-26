@@ -8,8 +8,8 @@ import * as portfinder from 'portfinder'
 import * as WebSocket from 'ws'
 
 import { getData } from './getData'
-import { render } from './render'
-import { Options, RenderPage } from './types'
+import { render, RenderPage } from './render'
+import { Options } from './types'
 
 const getPages = async (dirname: string, opts: Options): Promise<RenderPage[]> => {
   const data = await getData(dirname, opts)

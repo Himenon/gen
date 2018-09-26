@@ -1,28 +1,5 @@
 import { SpaceProps } from 'styled-system'
 
-export type Options = any
-export interface Options2 extends Options {
-  dirname?: string
-  library?: Library
-  pages?: FirstPage[]
-  lab?: Lab
-}
-
-export type Library = string
-
-export type Lib = ComponentConfig | {}
-
-export interface MarkdownProps {
-  h1: { [key: string]: number }
-  h2: { [key: string]: number }
-  h3: { [key: string]: number }
-  p: { [key: string]: number }
-  options?: { [key: string]: object }
-  text?: string
-  scope?: ScopedComponents
-  library?: Library
-}
-
 export interface CreateHtmlData {
   description?: string
   title?: string
@@ -31,13 +8,6 @@ export interface CreateHtmlData {
   scripts?: string[]
   stylesheets?: string[]
   layout?: string
-}
-
-export interface CreateHtmlOption {
-  data: CreateHtmlData
-  css: string
-  fontLinks: string
-  body: string
 }
 
 export interface FirstPage {
@@ -49,6 +19,18 @@ export interface FirstPage {
   name: string
   raw: string
   layoutJSX?: string
+}
+
+// 切り離せなかったものは上に
+
+export interface Options {
+  outDir?: string
+}
+export interface Options2 extends Options {
+  dirname?: string
+  library?: string
+  pages?: FirstPage[]
+  lab?: Lab
 }
 
 export type GenImporter = any
@@ -90,7 +72,6 @@ export interface AnchorProps {
   children?: React.ReactNode[]
 }
 
-export type BasicComponentProps = CreateHtmlData & React.Attributes
 export interface Style {
   [key: string]: string | number | Style
 }
@@ -114,10 +95,6 @@ export interface ComponentConfig {
   imports?: GenImporter[]
   jsx?: string
   external?: any // Unknown
-}
-
-export interface RenderPage extends FirstPage {
-  html: string
 }
 
 export interface Lab {

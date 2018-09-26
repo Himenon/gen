@@ -1,6 +1,13 @@
-import { CreateHtmlData, CreateHtmlOption } from './types'
+import { CreateHtmlData } from './types'
 
-export default ({ data = {}, css = '', fontLinks = '', body = '' }: CreateHtmlOption) => {
+export interface CreateHtmlOption {
+  data: CreateHtmlData
+  css: string
+  fontLinks: string
+  body: string
+}
+
+export const createHTML = ({ data = {}, css = '', fontLinks = '', body = '' }: CreateHtmlOption) => {
   const meta = getMeta(data)
 
   return [

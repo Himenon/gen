@@ -1,5 +1,5 @@
 import { createComponents } from './createComponents'
-import createHTML from './createHTML'
+import { createHTML } from './createHTML'
 import { getData } from './getData'
 import * as jsx from './jsx'
 import Markdown from './Markdown'

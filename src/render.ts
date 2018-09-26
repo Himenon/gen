@@ -7,12 +7,18 @@ import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import * as SC from 'styled-components'
 
 import { createComponents } from './createComponents'
-import createHTML from './createHTML'
+import { createHTML } from './createHTML'
 import { toComponent } from './jsx'
 import Markdown from './Markdown'
 import primitives from './primitives'
 
-import { BasicComponentProps, Content, CreateHtmlData, FirstPage, Options, Options2, RenderPage, ScopedComponents } from './types'
+import { Content, CreateHtmlData, FirstPage, Options, Options2, ScopedComponents } from './types'
+
+export type BasicComponentProps = CreateHtmlData & React.Attributes
+
+export interface RenderPage extends FirstPage {
+  html: string
+}
 
 const h = React.createElement
 

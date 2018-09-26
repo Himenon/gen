@@ -7,7 +7,18 @@ import * as remarkReact from 'remark-react'
 import * as remarkSlug from 'remark-slug'
 
 import { markdownComponents } from './markdownComponents'
-import { AnchorProps, HeadingProps, MappedScope, MarkdownProps, ScopedComponent, ScopedComponents } from './types'
+import { AnchorProps, HeadingProps, MappedScope, ScopedComponent, ScopedComponents } from './types'
+
+export interface MarkdownProps {
+  h1: { [key: string]: number }
+  h2: { [key: string]: number }
+  h3: { [key: string]: number }
+  p: { [key: string]: number }
+  options?: { [key: string]: object }
+  text?: string
+  scope?: ScopedComponents
+  library?: string
+}
 
 const heading = (Comp: ScopedComponent) => (props: HeadingProps): React.ReactNode => {
   return React.createElement(
