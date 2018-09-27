@@ -7,9 +7,9 @@ import * as chokidar from 'chokidar'
 import * as portfinder from 'portfinder'
 import * as WebSocket from 'ws'
 
+import { Options } from '@gen'
 import { getData } from './getData'
 import { render, RenderPage } from './render'
-import { Options } from './types'
 
 const getPages = async (dirname: string, opts: Options): Promise<RenderPage[]> => {
   const data = await getData(dirname, opts)

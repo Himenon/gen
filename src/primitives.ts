@@ -1,5 +1,5 @@
+import { ComponentConfig } from '@gen'
 import { space, themeGet, width } from 'styled-system'
-import { ComponentConfig } from './types'
 
 const primitives: ComponentConfig[] = [
   {

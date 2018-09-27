@@ -4,7 +4,7 @@ import * as transformJSX from '@babel/plugin-transform-react-jsx'
 import * as babel from '@babel/standalone'
 import * as React from 'react'
 
-import { ScopedComponents } from './types'
+import { ScopedComponents } from '@gen'
 
 const parse = (raw: string) =>
   babel.transform(raw, {

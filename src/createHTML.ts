@@ -1,4 +1,4 @@
-import { CreateHtmlData } from './types'
+import { CreateHtmlData } from '@gen'
 
 export interface CreateHtmlOption {
   data: CreateHtmlData

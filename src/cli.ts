@@ -9,12 +9,15 @@ import * as path from 'path'
 import * as readPkgUp from 'read-pkg-up'
 import { UpdateNotifier } from 'update-notifier'
 
-import { Options } from './types'
+import { Options } from '@gen'
 
 const pkg = require('../package.json')
 new UpdateNotifier({ pkg }).notify()
 
-import { getData, render, server, writePages } from './index'
+import { getData } from './getData'
+import { render } from './render'
+import { server } from './server'
+import { writePages } from './writePages'
 
 /**
  * DebugMessage用

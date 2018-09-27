@@ -2,8 +2,8 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as util from 'util'
 
+import { Options } from '@gen'
 import { RenderPage } from './render'
-import { Options } from './types'
 
 const write = util.promisify(fs.writeFile)
 

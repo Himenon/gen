@@ -4,7 +4,7 @@ import loadJsonFile from 'load-json-file'
 import * as path from 'path'
 import { promisify } from 'util'
 
-import { Content, FirstPage, Lab, Options, Theme } from './types'
+import { Content, FirstPage, Lab, Options, Theme } from '@gen'
 
 const readdir = promisify(fs.readdir)
 

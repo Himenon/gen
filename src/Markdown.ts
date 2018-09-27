@@ -6,8 +6,8 @@ import * as remarkReact from 'remark-react'
 // @ts-ignore
 import * as remarkSlug from 'remark-slug'
 
+import { AnchorProps, HeadingProps, MappedScope, ScopedComponent, ScopedComponents } from '@gen'
 import { markdownComponents } from './markdownComponents'
-import { AnchorProps, HeadingProps, MappedScope, ScopedComponent, ScopedComponents } from './types'
 
 export interface MarkdownProps {
   h1: { [key: string]: number }

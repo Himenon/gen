@@ -18,7 +18,7 @@
     "allowJs": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": ".",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -37,6 +37,12 @@
       ],
       "@compositor*": [
         "./typings/@compositor*"
+      ],
+      "@gen*": [
+        "./typings/@gen*"
+      ],
+      "@gen": [
+        "./typings/@gen/index.ts"
       ]
     },
   },

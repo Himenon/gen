@@ -12,7 +12,7 @@ import { toComponent } from './jsx'
 import Markdown from './Markdown'
 import primitives from './primitives'
 
-import { Content, CreateHtmlData, FirstPage, Options, Options2, ScopedComponents } from './types'
+import { Content, CreateHtmlData, FirstPage, Options, Options2, ScopedComponents } from '@gen'
 
 export type BasicComponentProps = CreateHtmlData & React.Attributes
 

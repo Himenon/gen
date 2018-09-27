@@ -1,5 +1,5 @@
+import { Options2, ScopedComponents } from '@gen'
 import { createComponents } from './createComponents'
-import { Options2, ScopedComponents } from './types'
 
 const gray = 'rgba(0, 0, 0, .125)'
 

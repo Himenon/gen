@@ -1,8 +1,8 @@
+import { ComponentConfig, GenImporter, Options2, ScopedComponent, ScopedComponents } from '@gen'
 import glamorous from 'glamorous'
 import styled from 'styled-components'
 import * as styledSystem from 'styled-system'
 import { toComponent } from './jsx'
-import { ComponentConfig, GenImporter, Options2, ScopedComponent, ScopedComponents } from './types'
 
 export type Lib = ComponentConfig | {}
 
