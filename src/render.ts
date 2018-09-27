@@ -14,7 +14,7 @@ import { primitives } from './primitives'
 
 import { Content, HtmlMetaData, LocalOptions, Options, PageData, ScopedComponents } from '@gen'
 
-export type BasicComponentProps = HtmlMetaData & React.Attributes
+export type ComponentProps = HtmlMetaData & React.Attributes
 
 export interface RenderPage extends PageData {
   html: string
@@ -27,9 +27,9 @@ const themeProviders = {
   glamorous: glamorous.ThemeProvider,
 }
 
-type CssCreator = (Component: React.ComponentClass, props: BasicComponentProps) => string
+type CssGenerator = (Component: React.ComponentClass, props: ComponentProps) => string
 
-const cssCreators: { [key: string]: CssCreator } = {
+const cssGenerator: { [key: string]: CssGenerator } = {
   'styled-components': (Component, props) => {
     const sheet = new SC.ServerStyleSheet()
     renderToStaticMarkup(sheet.collectStyles(h(Component, props)))
@@ -52,7 +52,6 @@ const getLayout = (pages: PageData[] = [], data: HtmlMetaData, scope: ScopedComp
   if (!pageData || pageData.ext !== '.jsx') {
     return scope.DefaultLayout
   }
-
   const { content } = pageData
   try {
     const Comp = toComponent(content, scope)
@@ -68,7 +67,7 @@ const getLayout = (pages: PageData[] = [], data: HtmlMetaData, scope: ScopedComp
 const renderPage = (scope: ScopedComponents, opts: LocalOptions) => (page: PageData): RenderPage => {
   const library = opts.library
   const Provider = (library && themeProviders[library]) || themeProviders['styled-components']
-  const getCSS: CssCreator = (library && cssCreators[library]) || cssCreators['styled-components']
+  const getCSS: CssGenerator = (library && cssGenerator[library]) || cssGenerator['styled-components']
 
   const Layout = page.ext === '.md' ? getLayout(opts.pages, page.data, scope) : React.Fragment
   const pageScope = {
@@ -136,7 +135,6 @@ const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: Content, op
     pages,
     ...opts,
   }
-
   const base = createComponents(primitives, localOpts)
   const components = createComponents(lab.components || [], localOpts)
   const scope: ScopedComponents = {
@@ -145,7 +143,6 @@ const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: Content, op
     theme,
   }
   const rendered = pages.map(renderPage(scope, localOpts))
-
   return rendered
 }
 
