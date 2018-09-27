@@ -75,7 +75,7 @@ const defaultProps: MarkdownProps = {
   },
 }
 
-class Markdown extends React.Component<MarkdownProps, {}> {
+export class Markdown extends React.Component<MarkdownProps, {}> {
   public render() {
     const { text = '', scope, library } = this.props
     const defaultScope = markdownComponents({ library })
@@ -126,5 +126,3 @@ class Markdown extends React.Component<MarkdownProps, {}> {
     return scope
   }
 }
-
-export default Markdown

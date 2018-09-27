@@ -9,8 +9,8 @@ import * as SC from 'styled-components'
 import { createComponents } from './createComponents'
 import { createHTML } from './createHTML'
 import { toComponent } from './jsx'
-import Markdown from './Markdown'
-import primitives from './primitives'
+import { Markdown } from './Markdown'
+import { primitives } from './primitives'
 
 import { Content, HtmlMetaData, LocalOptions, Options, PageData, ScopedComponents } from '@gen'
 

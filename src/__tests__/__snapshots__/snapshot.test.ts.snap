@@ -1,0 +1,495 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exports primitives config 1`] = `
+Array [
+  Object {
+    "name": "Box",
+    "props": Object {},
+    "style": Object {},
+    "system": Array [],
+    "type": "div",
+  },
+  Object {
+    "name": "Flex",
+    "props": Object {},
+    "style": Object {
+      "display": "flex",
+    },
+    "system": Array [
+      "alignItems",
+      "justifyContent",
+      "flexWrap",
+      "flexDirection",
+    ],
+    "type": "Box",
+  },
+  Object {
+    "name": "Grid",
+    "props": Object {},
+    "style": [Function],
+    "system": Array [
+      "alignItems",
+      "justifyContent",
+      "flexDirection",
+    ],
+    "type": "div",
+  },
+  Object {
+    "name": "Text",
+    "props": Object {},
+    "style": Object {},
+    "system": Array [
+      "textAlign",
+      "fontWeight",
+    ],
+    "type": "div",
+  },
+  Object {
+    "name": "Heading",
+    "props": Object {
+      "m": 0,
+    },
+    "style": Object {
+      "lineHeight": 1.25,
+    },
+    "system": Array [
+      "textAlign",
+      "fontWeight",
+    ],
+    "type": "h2",
+  },
+  Object {
+    "name": "Link",
+    "props": Object {
+      "color": "blue",
+    },
+    "style": Object {},
+    "system": Array [],
+    "type": "a",
+  },
+  Object {
+    "name": "Image",
+    "props": Object {},
+    "style": Object {
+      "height": "auto",
+      "maxWidth": "100%",
+    },
+    "system": Array [],
+    "type": "img",
+  },
+  Object {
+    "name": "Font",
+    "props": Object {},
+    "style": [Function],
+    "system": Array [],
+    "type": "div",
+  },
+  Object {
+    "name": "DefaultLayout",
+    "props": Object {
+      "mx": "auto",
+      "pb": 4,
+      "pt": 3,
+      "px": 3,
+    },
+    "style": Object {
+      "maxWidth": "768px",
+    },
+    "system": Array [],
+    "type": "div",
+  },
+]
+`;
+
+exports[`generates markdown components 1`] = `
+Object {
+  "Blockquote": [Function],
+  "Code": [Function],
+  "Divider": [Function],
+  "Heading": [Function],
+  "Pre": [Function],
+  "Subhead": [Function],
+  "Table": [Function],
+  "Title": [Function],
+}
+`;
+
+exports[`getData reads theme.json, lab.json, .jsx, and .md files 1`] = `
+Object {
+  "dirname": "/Users/himepro/DevelopProjects/gen/examples",
+  "lab": Object {},
+  "pages": Array [
+    Object {
+      "content": "<Box bg='tomato' color='white' p={4}>
+  <h1>Hello Gen</h1>
+</Box>
+",
+      "data": Object {
+        "description": "Just a simple example file for gen",
+        "title": "Hello",
+      },
+      "ext": ".jsx",
+      "filename": "hello.jsx",
+      "name": "hello",
+      "raw": "---
+title: Hello
+description: Just a simple example file for gen
+---
+<Box bg='tomato' color='white' p={4}>
+  <h1>Hello Gen</h1>
+</Box>
+",
+    },
+    Object {
+      "content": "<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+      "data": Object {},
+      "ext": ".jsx",
+      "filename": "layout.jsx",
+      "name": "layout",
+      "raw": "---
+---
+<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+    },
+    Object {
+      "content": "
+# No Layout (h1)
+
+This markdown file doesn't specify a layout, so it gets a simple default one.
+
+## H2
+
+Hello there little markdown file.
+
+## H3
+
+How are you doing this fine evening
+
+- [Hello](hello)
+- [readme](readme)
+
+---
+
+[Made by Compositor](https://compositor.io/)
+|
+MIT License
+",
+      "data": Object {
+        "title": "Home page",
+        "twitter": Object {
+          "card": "summary",
+          "description": "Compositor JSX static site generator",
+          "image": "kitten.png",
+          "site": "@getcompositor",
+          "title": "Compositor Gen",
+        },
+      },
+      "ext": ".md",
+      "filename": "index.md",
+      "name": "index",
+      "raw": "---
+title: Home page
+twitter:
+  card: summary
+  site: '@getcompositor'
+  image: 'kitten.png'
+  title: Compositor Gen
+  description: Compositor JSX static site generator
+---
+
+# No Layout (h1)
+
+This markdown file doesn't specify a layout, so it gets a simple default one.
+
+## H2
+
+Hello there little markdown file.
+
+## H3
+
+How are you doing this fine evening
+
+- [Hello](hello)
+- [readme](readme)
+
+---
+
+[Made by Compositor](https://compositor.io/)
+|
+MIT License
+",
+    },
+    Object {
+      "content": "
+# Hello Markdown
+
+This should render with Lab primitives
+
+- [Link](https://compositor.io)
+
+\`code\`
+
+\`\`\`
+preformatted text
+\`\`\`
+",
+      "data": Object {
+        "layout": "layout",
+        "title": "Hello Markdown",
+      },
+      "ext": ".md",
+      "filename": "readme.md",
+      "layoutJSX": "<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+      "name": "readme",
+      "raw": "---
+title: Hello Markdown
+layout: layout
+---
+
+# Hello Markdown
+
+This should render with Lab primitives
+
+- [Link](https://compositor.io)
+
+\`code\`
+
+\`\`\`
+preformatted text
+\`\`\`
+",
+    },
+  ],
+  "theme": Object {
+    "fonts": Array [
+      "'Roboto Mono', monospace",
+    ],
+    "lineHeight": 1.625,
+    "space": Array [
+      0,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+    ],
+    "textColor": "#033",
+  },
+}
+`;
+
+exports[`render creates pages 1`] = `
+Array [
+  Object {
+    "content": "<Box bg='tomato' color='white' p={4}>
+  <h1>Hello Gen</h1>
+</Box>
+",
+    "data": Object {
+      "description": "Just a simple example file for gen",
+      "title": "Hello",
+    },
+    "ext": ".jsx",
+    "filename": "hello.jsx",
+    "html": "Error: The clone method cannot be used on the client!
+
+* Are you running in a client-like environment on the server?
+* Are you trying to run SSR on the client?
+
+",
+    "name": "hello",
+    "raw": "---
+title: Hello
+description: Just a simple example file for gen
+---
+<Box bg='tomato' color='white' p={4}>
+  <h1>Hello Gen</h1>
+</Box>
+",
+  },
+  Object {
+    "content": "<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+    "data": Object {},
+    "ext": ".jsx",
+    "filename": "layout.jsx",
+    "html": "Error: The clone method cannot be used on the client!
+
+* Are you running in a client-like environment on the server?
+* Are you trying to run SSR on the client?
+
+",
+    "name": "layout",
+    "raw": "---
+---
+<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+  },
+  Object {
+    "content": "
+# No Layout (h1)
+
+This markdown file doesn't specify a layout, so it gets a simple default one.
+
+## H2
+
+Hello there little markdown file.
+
+## H3
+
+How are you doing this fine evening
+
+- [Hello](hello)
+- [readme](readme)
+
+---
+
+[Made by Compositor](https://compositor.io/)
+|
+MIT License
+",
+    "data": Object {
+      "title": "Home page",
+      "twitter": Object {
+        "card": "summary",
+        "description": "Compositor JSX static site generator",
+        "image": "kitten.png",
+        "site": "@getcompositor",
+        "title": "Compositor Gen",
+      },
+    },
+    "ext": ".md",
+    "filename": "index.md",
+    "html": "Error: The clone method cannot be used on the client!
+
+* Are you running in a client-like environment on the server?
+* Are you trying to run SSR on the client?
+
+",
+    "name": "index",
+    "raw": "---
+title: Home page
+twitter:
+  card: summary
+  site: '@getcompositor'
+  image: 'kitten.png'
+  title: Compositor Gen
+  description: Compositor JSX static site generator
+---
+
+# No Layout (h1)
+
+This markdown file doesn't specify a layout, so it gets a simple default one.
+
+## H2
+
+Hello there little markdown file.
+
+## H3
+
+How are you doing this fine evening
+
+- [Hello](hello)
+- [readme](readme)
+
+---
+
+[Made by Compositor](https://compositor.io/)
+|
+MIT License
+",
+  },
+  Object {
+    "content": "
+# Hello Markdown
+
+This should render with Lab primitives
+
+- [Link](https://compositor.io)
+
+\`code\`
+
+\`\`\`
+preformatted text
+\`\`\`
+",
+    "data": Object {
+      "layout": "layout",
+      "title": "Hello Markdown",
+    },
+    "ext": ".md",
+    "filename": "readme.md",
+    "html": "Error: The clone method cannot be used on the client!
+
+* Are you running in a client-like environment on the server?
+* Are you trying to run SSR on the client?
+
+",
+    "layoutJSX": "<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+    "name": "readme",
+    "raw": "---
+title: Hello Markdown
+layout: layout
+---
+
+# Hello Markdown
+
+This should render with Lab primitives
+
+- [Link](https://compositor.io)
+
+\`code\`
+
+\`\`\`
+preformatted text
+\`\`\`
+",
+  },
+]
+`;

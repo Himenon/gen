@@ -1,7 +1,7 @@
 import { ComponentConfig } from '@gen'
 import { space, themeGet, width } from 'styled-system'
 
-const primitives: ComponentConfig[] = [
+export const primitives: ComponentConfig[] = [
   {
     name: 'Box',
     type: 'div',
@@ -98,5 +98,3 @@ const primitives: ComponentConfig[] = [
     system: [],
   },
 ]
-
-export default primitives
