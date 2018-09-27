@@ -9,15 +9,12 @@ import * as path from 'path'
 import * as readPkgUp from 'read-pkg-up'
 import { UpdateNotifier } from 'update-notifier'
 
-import { Options } from '@gen'
-
 const pkg = require('../package.json')
 new UpdateNotifier({ pkg }).notify()
 
-import { getData } from './getData'
-import { render } from './render'
 import { server } from './server'
-import { writePages } from './writePages'
+
+import { generateStatic } from './generateStatic'
 
 /**
  * DebugMessage用
@@ -68,13 +65,6 @@ const localOpts = {
   outDir: path.join(process.cwd(), cli.flags.outDir || ''),
 }
 
-const create = async (dirname: string, opts: Options) => {
-  const data = await getData(dirname, opts)
-  const pages = await render(data, opts)
-  const result = await writePages(pages, opts)
-  return result
-}
-
 log('@compositor/gen')
 
 if (localOpts.dev) {
@@ -101,7 +91,7 @@ if (localOpts.dev) {
     })
 } else {
   // 開発環境ではなく、サイトを生成する
-  create(localDirname, localOpts)
+  generateStatic(localDirname, localOpts)
     .then(result => {
       log('files saved to', localDirname)
     })

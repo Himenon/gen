@@ -6,14 +6,15 @@ import * as React from 'react'
 
 import { ScopedComponents } from '@gen'
 
-const parse = (raw: string) =>
+// https://github.com/babel/babel/blob/master/packages/babel-core/src/transformation/index.js#L20-L26
+const parse = (raw: string): string | null =>
   babel.transform(raw, {
     plugins: [transformJSX],
   }).code
 
 const wrap = (jsx: string) => `<React.Fragment>${jsx}</React.Fragment>`
 
-const toComponent = (jsx: string, scope: ScopedComponents = {}) => {
+export const toComponent = (jsx: string, scope: ScopedComponents = {}) => {
   const el = parse(wrap(jsx))
   const scopeKeys = Object.keys(scope)
   const scopeValues = scopeKeys.map(key => scope[key])
@@ -22,5 +23,3 @@ const toComponent = (jsx: string, scope: ScopedComponents = {}) => {
   // todo: validate
   return Comp
 }
-
-export { parse, toComponent }

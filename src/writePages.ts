@@ -7,7 +7,12 @@ import { RenderPage } from './render'
 
 const write = util.promisify(fs.writeFile)
 
-const writePages = async (pages: RenderPage[], opts: Options) => {
+/**
+ * Output Generated Page
+ * @param pages
+ * @param opts
+ */
+const writePages = async (pages: RenderPage[], opts: Options): Promise<RenderPage[]> => {
   const { outDir = process.cwd() } = opts
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir)

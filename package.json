@@ -15,7 +15,7 @@
     "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix -t verbose",
     "cruiser": "npx dependency-cruiser --validate .dependency-cruiser.json --ts-config=./tsconfig.json src",
     "fmt": "prettier --write src/**/*.ts src/**/*.tsx",
-    "visualize": "madge src/index.ts --image output.png",
+    "visualize": "madge src/index.ts --image images/index.png",
     "format": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "keywords": [

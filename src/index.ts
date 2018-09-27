@@ -1,4 +1,4 @@
+import { generateStatic } from './generateStatic'
 import { server } from './server'
-import { writePages } from './writePages'
 
-export { server, writePages }
+export { server, generateStatic }

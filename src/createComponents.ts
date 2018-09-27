@@ -52,7 +52,7 @@ const createScope = (imports: GenImporter[], lib: Lib) =>
       {},
     )
 
-export const createComposite = (comp: ComponentConfig, lib: Lib): ScopedComponent => {
+const createComposite = (comp: ComponentConfig, lib: Lib): ScopedComponent => {
   // todo npm/local modules scope
   const scope = createScope(comp.imports!, lib)
   const Comp = toComponent(comp.jsx!, scope)
