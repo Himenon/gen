@@ -1,6 +1,6 @@
 import { SpaceProps } from 'styled-system'
 
-export interface CreateHtmlData {
+export interface HtmlMetaData {
   description?: string
   title?: string
   og?: { [key: string]: string }
@@ -10,10 +10,9 @@ export interface CreateHtmlData {
   layout?: string
 }
 
-export interface FirstPage {
+export interface PageData {
   content: string
-  // ここかJSXの設定系
-  data: CreateHtmlData
+  data: HtmlMetaData
   ext: string
   filename: string
   name: string
@@ -21,19 +20,17 @@ export interface FirstPage {
   layoutJSX?: string
 }
 
-// 切り離せなかったものは上に
-
 export interface Options {
   outDir?: string
 }
-export interface Options2 extends Options {
+export interface LocalOptions extends Options {
   dirname?: string
   library?: string
-  pages?: FirstPage[]
+  pages?: PageData[]
   lab?: Lab
 }
 
-export type GenImporter = any
+export type CustomImporter = any
 
 export type ScopedName =
   | 'Title'
@@ -62,16 +59,6 @@ export type ScopedComponent = any | Theme
 export type ScopedComponents = { [key in ScopedName]?: ScopedComponent }
 export type MappedScope = { [key in ScopedType]?: ScopedComponent }
 
-export interface HeadingProps {
-  id: string
-  children?: React.ReactNode[]
-}
-
-export interface AnchorProps {
-  href: string
-  children?: React.ReactNode[]
-}
-
 export interface Style {
   [key: string]: string | number | Style
 }
@@ -81,7 +68,6 @@ export interface ComponentConfig {
   name: ScopedName
   type: ScopedType
   style: Style | GenerateStyle
-  // props: ComponentProps & SpaceProps
   props: {
     fontSize?: number
     fontWeight?: string
@@ -92,7 +78,7 @@ export interface ComponentConfig {
     color?: string
   } & SpaceProps
   system?: string[]
-  imports?: GenImporter[]
+  imports?: CustomImporter[]
   jsx?: string
   external?: any // Unknown
 }
@@ -109,6 +95,6 @@ export interface Theme {
 export interface Content {
   dirname: string
   lab: Lab
-  pages: FirstPage[]
+  pages: PageData[]
   theme: Theme | unknown
 }

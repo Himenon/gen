@@ -1,4 +1,4 @@
-import { ComponentConfig, GenImporter, Options2, ScopedComponent, ScopedComponents } from '@gen'
+import { ComponentConfig, CustomImporter, LocalOptions, ScopedComponent, ScopedComponents } from '@gen'
 import glamorous from 'glamorous'
 import styled from 'styled-components'
 import * as styledSystem from 'styled-system'
@@ -10,11 +10,6 @@ class EmptyTemplateStringsArray extends Array implements TemplateStringsArray {
   public readonly raw = []
 }
 
-// type CreateFunction = (comp: ComponentConfig, lib: Lib) => null | ScopedComponent;
-
-/**
- * styled-componentsまたはglamorousのどちらかでCSSをつける
- */
 const componentCreators: { [key: string]: (comp: ComponentConfig, lib: Lib) => ScopedComponent } = {
   glamorous: ({ name, type, style, props, system = [] }, lib) => {
     // todo: DRY up
@@ -38,14 +33,14 @@ const componentCreators: { [key: string]: (comp: ComponentConfig, lib: Lib) => S
   },
 }
 
-const createScope = (imports: GenImporter[], lib: Lib) =>
+const createScope = (imports: CustomImporter[], lib: Lib) =>
   imports
     .map((key: string) => ({
       key,
       value: lib[key],
     }))
     .reduce(
-      (a: GenImporter, b: GenImporter) => ({
+      (a: CustomImporter, b: CustomImporter) => ({
         ...a,
         [b.key]: b.value,
       }),
@@ -79,7 +74,7 @@ const mergeComponents = (create: (comp: ComponentConfig, lib: Lib) => null | Sco
   }
 }
 
-const createComponent = (opts: Options2) => (comp: ComponentConfig, lib: Lib): null | ScopedComponent => {
+const createComponent = (opts: LocalOptions) => (comp: ComponentConfig, lib: Lib): null | ScopedComponent => {
   if (isExternal(comp)) {
     return null
   }
@@ -91,17 +86,11 @@ const createComponent = (opts: Options2) => (comp: ComponentConfig, lib: Lib): n
   }
 
   const library = opts.library || 'styled-components'
-  // 利用するfunctionを指定する
   const sx = componentCreators[library]
   return sx(comp, lib)
 }
 
-/**
- * Scopeを返す
- * @param config
- * @param opts
- */
-export const createComponents = (config: ComponentConfig[] = [], opts: Options2 = {}): ScopedComponents => {
+export const createComponents = (config: ComponentConfig[] = [], opts: LocalOptions = {}): ScopedComponents => {
   const base = config.filter(isBase)
   const extensions = config.filter(isExtension)
   const composites = config.filter(isComposite)

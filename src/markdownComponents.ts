@@ -1,9 +1,9 @@
-import { Options2, ScopedComponents } from '@gen'
+import { LocalOptions, ScopedComponents } from '@gen'
 import { createComponents } from './createComponents'
 
 const gray = 'rgba(0, 0, 0, .125)'
 
-export const markdownComponents = (opts: Options2): ScopedComponents =>
+export const markdownComponents = (opts: LocalOptions): ScopedComponents =>
   createComponents(
     [
       {

@@ -12,11 +12,11 @@ import { toComponent } from './jsx'
 import Markdown from './Markdown'
 import primitives from './primitives'
 
-import { Content, CreateHtmlData, FirstPage, Options, Options2, ScopedComponents } from '@gen'
+import { Content, HtmlMetaData, LocalOptions, Options, PageData, ScopedComponents } from '@gen'
 
-export type BasicComponentProps = CreateHtmlData & React.Attributes
+export type BasicComponentProps = HtmlMetaData & React.Attributes
 
-export interface RenderPage extends FirstPage {
+export interface RenderPage extends PageData {
   html: string
 }
 
@@ -43,17 +43,17 @@ const cssCreators: { [key: string]: CssCreator } = {
   },
 }
 
-const getLayout = (pages: FirstPage[] = [], data: CreateHtmlData, scope: ScopedComponents) => {
+const getLayout = (pages: PageData[] = [], data: HtmlMetaData, scope: ScopedComponents) => {
   if (!data.layout) {
     return scope.DefaultLayout
   }
-  const layout: FirstPage | undefined = pages.find(page => page.name === data.layout)
+  const pageData: PageData | undefined = pages.find(page => page.name === data.layout)
 
-  if (!layout || layout.ext !== '.jsx') {
+  if (!pageData || pageData.ext !== '.jsx') {
     return scope.DefaultLayout
   }
 
-  const { content } = layout
+  const { content } = pageData
   try {
     const Comp = toComponent(content, scope)
     Comp.defaultProps = data
@@ -65,7 +65,7 @@ const getLayout = (pages: FirstPage[] = [], data: CreateHtmlData, scope: ScopedC
 }
 
 // theme,
-const renderPage = (scope: ScopedComponents, opts: Options2) => (page: FirstPage): RenderPage => {
+const renderPage = (scope: ScopedComponents, opts: LocalOptions) => (page: PageData): RenderPage => {
   const library = opts.library
   const Provider = (library && themeProviders[library]) || themeProviders['styled-components']
   const getCSS: CssCreator = (library && cssCreators[library]) || cssCreators['styled-components']
@@ -92,7 +92,7 @@ const renderPage = (scope: ScopedComponents, opts: Options2) => (page: FirstPage
         options={options}
       />`
 
-  const Page = toComponent(
+  const pageComponent = toComponent(
     `<Provider theme={theme}>
       <Font>
         <Layout>
@@ -104,11 +104,11 @@ const renderPage = (scope: ScopedComponents, opts: Options2) => (page: FirstPage
   )
 
   try {
-    const el = h(Page, page.data)
+    const el = h(pageComponent, page.data)
     const body = renderToStaticMarkup(el)
     // const html = renderToString(el)
     // todo: css
-    const css = getCSS(Page, page.data) // full style tag
+    const css = getCSS(pageComponent, page.data) // full style tag
     const fontLinks = dot
       .get(scope, 'theme.fonts', [])
       .map((font: string) => webfont.getLinkTag(font, []))
@@ -130,21 +130,21 @@ const renderPage = (scope: ScopedComponents, opts: Options2) => (page: FirstPage
 
 const render = async ({ dirname, theme = {}, lab = {}, pages = [] }: Content, opts: Options): Promise<RenderPage[]> => {
   const library = lab.library || 'styled-components'
-  const opts2: Options2 = {
+  const localOpts: LocalOptions = {
     dirname,
     library,
     pages,
     ...opts,
   }
 
-  const base = createComponents(primitives, opts2)
-  const components = createComponents(lab.components || [], opts2)
+  const base = createComponents(primitives, localOpts)
+  const components = createComponents(lab.components || [], localOpts)
   const scope: ScopedComponents = {
     ...base,
     ...components,
     theme,
   }
-  const rendered = pages.map(renderPage(scope, opts2))
+  const rendered = pages.map(renderPage(scope, localOpts))
 
   return rendered
 }

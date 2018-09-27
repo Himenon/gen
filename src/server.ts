@@ -23,9 +23,6 @@ const start = async (dirname: string, opts: Options) => {
   let socket: WebSocket
   let gPages = await getPages(dirname, opts)
 
-  /**
-   * ファイル
-   */
   const watcher: chokidar.FSWatcher = chokidar.watch(dirname, {
     depth: 1,
     ignoreInitial: true,
@@ -54,9 +51,6 @@ const start = async (dirname: string, opts: Options) => {
     socket.send(JSON.stringify({ reload: true }))
   }
 
-  /**
-   * ファイルの変更があった場合に更新を通知する
-   */
   watcher.on('change', async (filename: string) => {
     if (!socket) {
       return
@@ -70,9 +64,6 @@ const start = async (dirname: string, opts: Options) => {
     update()
   })
 
-  /**
-   * WebServer
-   */
   const app = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
     if (!req.url) {
       return

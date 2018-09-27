@@ -16,10 +16,6 @@ import { server } from './server'
 
 import { generateStatic } from './generateStatic'
 
-/**
- * DebugMessage用
- * @param messages anyで良い
- */
 const log = (...messages: any[]) => {
   console.log(chalk.black.bgCyan(' gen '), chalk.cyan(...messages))
 }

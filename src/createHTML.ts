@@ -1,7 +1,7 @@
-import { CreateHtmlData } from '@gen'
+import { HtmlMetaData } from '@gen'
 
 export interface CreateHtmlOption {
-  data: CreateHtmlData
+  data: HtmlMetaData
   css: string
   fontLinks: string
   body: string
@@ -33,23 +33,23 @@ export const createHTML = ({ data = {}, css = '', fontLinks = '', body = '' }: C
     .join('')
 }
 
-const getMeta = (data: CreateHtmlData) => (key: string, name?: string) =>
+const getMeta = (data: HtmlMetaData) => (key: string, name?: string) =>
   data[key] ? `<meta name='${name || key}' content='${data[key]}'>` : ''
 
-const getStylesheets = (stylesheets?: CreateHtmlData['stylesheets']) =>
+const getStylesheets = (stylesheets?: HtmlMetaData['stylesheets']) =>
   Array.isArray(stylesheets) ? stylesheets.map(href => `<link rel='stylesheet' href='${href}'>`) : ''
 
-const getOG = (og: CreateHtmlData['og'] = {}) =>
+const getOG = (og: HtmlMetaData['og'] = {}) =>
   Object.keys(og || {})
     .map(key => getMeta(og)(key, 'og:' + key))
     .join('')
 
-const getTwitterCard = (twitter: CreateHtmlData['twitter'] = {}) =>
+const getTwitterCard = (twitter: HtmlMetaData['twitter'] = {}) =>
   Object.keys(twitter || {})
     .map(key => getMeta(twitter)(key, 'twitter:' + key))
     .join('')
 
-const getScripts = (scripts?: CreateHtmlData['scripts']) =>
+const getScripts = (scripts?: HtmlMetaData['scripts']) =>
   Array.isArray(scripts) ? scripts.map(script => `<script>${script}</script>`) : ''
 
 const baseCSS = `*{box-sizing:border-box}body{margin:0}`

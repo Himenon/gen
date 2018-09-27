@@ -4,7 +4,7 @@ import loadJsonFile from 'load-json-file'
 import * as path from 'path'
 import { promisify } from 'util'
 
-import { Content, FirstPage, Lab, Options, Theme } from '@gen'
+import { Content, Lab, Options, PageData, Theme } from '@gen'
 
 const readdir = promisify(fs.readdir)
 
@@ -40,7 +40,7 @@ export const getContent = async (dirname: string, opts: Options): Promise<Conten
   }
 }
 
-const getPage = (dirname: string) => async (filename: string): Promise<FirstPage> => {
+const getPage = (dirname: string) => async (filename: string): Promise<PageData> => {
   const ext = path.extname(filename)
   const name = path.basename(filename, ext)
   // const raw = await readFile(path.join(dirname, filename), 'utf8')
@@ -57,14 +57,14 @@ const getPage = (dirname: string) => async (filename: string): Promise<FirstPage
   }
 }
 
-const getLayout = (pages: FirstPage[]) => (page: FirstPage): FirstPage => {
+const getLayout = (pages: PageData[]) => (page: PageData): PageData => {
   if (page.ext !== '.md') {
     return page
   }
   if (!page.data.layout) {
     return page
   }
-  const layout = pages.find((p: FirstPage) => p.name === page.data.layout)
+  const layout = pages.find((p: PageData) => p.name === page.data.layout)
   if (!layout) {
     return page
   }
