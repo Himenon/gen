@@ -1,0 +1,551 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot exports primitives config 1`] = `
+Array [
+  Object {
+    "name": "Box",
+    "props": Object {},
+    "style": Object {},
+    "system": Array [],
+    "type": "div",
+  },
+  Object {
+    "name": "Flex",
+    "props": Object {},
+    "style": Object {
+      "display": "flex",
+    },
+    "system": Array [
+      "alignItems",
+      "justifyContent",
+      "flexWrap",
+      "flexDirection",
+    ],
+    "type": "Box",
+  },
+  Object {
+    "name": "Grid",
+    "props": Object {},
+    "style": [Function],
+    "system": Array [
+      "alignItems",
+      "justifyContent",
+      "flexDirection",
+    ],
+    "type": "div",
+  },
+  Object {
+    "name": "Text",
+    "props": Object {},
+    "style": Object {},
+    "system": Array [
+      "textAlign",
+      "fontWeight",
+    ],
+    "type": "div",
+  },
+  Object {
+    "name": "Heading",
+    "props": Object {
+      "m": 0,
+    },
+    "style": Object {
+      "lineHeight": 1.25,
+    },
+    "system": Array [
+      "textAlign",
+      "fontWeight",
+    ],
+    "type": "h2",
+  },
+  Object {
+    "name": "Link",
+    "props": Object {
+      "color": "blue",
+    },
+    "style": Object {},
+    "system": Array [],
+    "type": "a",
+  },
+  Object {
+    "name": "Image",
+    "props": Object {},
+    "style": Object {
+      "height": "auto",
+      "maxWidth": "100%",
+    },
+    "system": Array [],
+    "type": "img",
+  },
+  Object {
+    "name": "Font",
+    "props": Object {},
+    "style": [Function],
+    "system": Array [],
+    "type": "div",
+  },
+  Object {
+    "name": "DefaultLayout",
+    "props": Object {
+      "mx": "auto",
+      "pb": 4,
+      "pt": 3,
+      "px": 3,
+    },
+    "style": Object {
+      "maxWidth": "768px",
+    },
+    "system": Array [],
+    "type": "div",
+  },
+]
+`;
+
+exports[`snapshot generates markdown components 1`] = `
+Object {
+  "Blockquote": [Function],
+  "Code": [Function],
+  "Divider": [Function],
+  "Heading": [Function],
+  "Pre": [Function],
+  "Subhead": [Function],
+  "Table": [Function],
+  "Title": [Function],
+}
+`;
+
+exports[`snapshot getData reads theme.json, lab.json, .jsx, and .md files 1`] = `
+Object {
+  "dirname": "/Users/himepro/DevelopProjects/gen/examples",
+  "lab": Object {},
+  "pages": Array [
+    Object {
+      "content": "<Box bg='tomato' color='white' p={4}>
+  <h1>Hello Gen</h1>
+</Box>
+",
+      "data": Object {
+        "description": "Just a simple example file for gen",
+        "title": "Hello",
+      },
+      "ext": ".jsx",
+      "filename": "hello.jsx",
+      "name": "hello",
+      "raw": "---
+title: Hello
+description: Just a simple example file for gen
+---
+<Box bg='tomato' color='white' p={4}>
+  <h1>Hello Gen</h1>
+</Box>
+",
+    },
+    Object {
+      "content": "<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+      "data": Object {},
+      "ext": ".jsx",
+      "filename": "layout.jsx",
+      "name": "layout",
+      "raw": "---
+---
+<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+    },
+    Object {
+      "content": "
+# No Layout (h1)
+
+This markdown file doesn't specify a layout, so it gets a simple default one.
+
+## H2
+
+Hello there little markdown file.
+
+## H3
+
+How are you doing this fine evening
+
+- [Hello](hello)
+- [readme](readme)
+
+---
+
+[Made by Compositor](https://compositor.io/)
+|
+MIT License
+",
+      "data": Object {
+        "title": "Home page",
+        "twitter": Object {
+          "card": "summary",
+          "description": "Compositor JSX static site generator",
+          "image": "kitten.png",
+          "site": "@getcompositor",
+          "title": "Compositor Gen",
+        },
+      },
+      "ext": ".md",
+      "filename": "index.md",
+      "name": "index",
+      "raw": "---
+title: Home page
+twitter:
+  card: summary
+  site: '@getcompositor'
+  image: 'kitten.png'
+  title: Compositor Gen
+  description: Compositor JSX static site generator
+---
+
+# No Layout (h1)
+
+This markdown file doesn't specify a layout, so it gets a simple default one.
+
+## H2
+
+Hello there little markdown file.
+
+## H3
+
+How are you doing this fine evening
+
+- [Hello](hello)
+- [readme](readme)
+
+---
+
+[Made by Compositor](https://compositor.io/)
+|
+MIT License
+",
+    },
+    Object {
+      "content": "
+# Hello Markdown
+
+This should render with Lab primitives
+
+- [Link](https://compositor.io)
+
+\`code\`
+
+\`\`\`
+preformatted text
+\`\`\`
+",
+      "data": Object {
+        "layout": "layout",
+        "title": "Hello Markdown",
+      },
+      "ext": ".md",
+      "filename": "readme.md",
+      "layoutJSX": "<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+      "name": "readme",
+      "raw": "---
+title: Hello Markdown
+layout: layout
+---
+
+# Hello Markdown
+
+This should render with Lab primitives
+
+- [Link](https://compositor.io)
+
+\`code\`
+
+\`\`\`
+preformatted text
+\`\`\`
+",
+    },
+  ],
+  "theme": Object {
+    "fonts": Array [
+      "'Roboto Mono', monospace",
+    ],
+    "lineHeight": 1.625,
+    "space": Array [
+      0,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+    ],
+    "textColor": "#033",
+  },
+}
+`;
+
+exports[`snapshot render creates pages 1`] = `
+Array [
+  Object {
+    "content": "<Box bg='tomato' color='white' p={4}>
+  <h1>Hello Gen</h1>
+</Box>
+",
+    "data": Object {
+      "description": "Just a simple example file for gen",
+      "title": "Hello",
+    },
+    "ext": ".jsx",
+    "filename": "hello.jsx",
+    "html": "<!DOCTYPE html><meta charset=\\"utf-8\\"><meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1\\"><meta http-equiv=\\"x-ua-compatible\\" content=\\"ie=edge\\"><meta name=\\"generator\\" content=\\"Compositor Gen\\"><title>Hello</title><meta name='description' content='Just a simple example file for gen'><link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Mono'><style>*{box-sizing:border-box}body{margin:0}</style><style data-styled-components=\\"cpFWnQ dHmUli\\">
+/* sc-component-id: sc-bdVaJa */
+.sc-bdVaJa {} .dHmUli{padding:32px;color:white;background-color:tomato;}
+/* sc-component-id: sc-gzVnrw */
+.sc-gzVnrw {} .cpFWnQ{font-family:'Roboto Mono',monospace;line-height:1.625;color:#033;}</style><body><div class=\\"sc-gzVnrw cpFWnQ\\"><div class=\\"sc-bdVaJa dHmUli\\" color=\\"white\\"><h1>Hello Gen</h1></div></div></body>",
+    "name": "hello",
+    "raw": "---
+title: Hello
+description: Just a simple example file for gen
+---
+<Box bg='tomato' color='white' p={4}>
+  <h1>Hello Gen</h1>
+</Box>
+",
+  },
+  Object {
+    "content": "<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+    "data": Object {},
+    "ext": ".jsx",
+    "filename": "layout.jsx",
+    "html": "<!DOCTYPE html><meta charset=\\"utf-8\\"><meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1\\"><meta http-equiv=\\"x-ua-compatible\\" content=\\"ie=edge\\"><meta name=\\"generator\\" content=\\"Compositor Gen\\"><title>undefined</title><link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Mono'><style>*{box-sizing:border-box}body{margin:0}</style><style data-styled-components=\\"cpFWnQ dHmUli ibxcLF dnFEMg iZjiKO\\">
+/* sc-component-id: sc-bdVaJa */
+.sc-bdVaJa {} .dHmUli{padding:32px;color:white;background-color:tomato;}.ibxcLF{padding:32px;background-color:black;}.dnFEMg{padding-top:32px;padding-bottom:32px;background-color:white;}.iZjiKO{margin-left:auto;margin-right:auto;padding-left:16px;padding-right:16px;}
+/* sc-component-id: sc-gzVnrw */
+.sc-gzVnrw {} .cpFWnQ{font-family:'Roboto Mono',monospace;line-height:1.625;color:#033;}</style><body><div class=\\"sc-gzVnrw cpFWnQ\\"><div class=\\"sc-bdVaJa ibxcLF\\"><div class=\\"sc-bdVaJa dnFEMg\\"><div class=\\"sc-bdVaJa iZjiKO\\" style=\\"max-width:768px\\"><h1>Custom Layout</h1></div></div></div></div></body>",
+    "name": "layout",
+    "raw": "---
+---
+<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+  },
+  Object {
+    "content": "
+# No Layout (h1)
+
+This markdown file doesn't specify a layout, so it gets a simple default one.
+
+## H2
+
+Hello there little markdown file.
+
+## H3
+
+How are you doing this fine evening
+
+- [Hello](hello)
+- [readme](readme)
+
+---
+
+[Made by Compositor](https://compositor.io/)
+|
+MIT License
+",
+    "data": Object {
+      "title": "Home page",
+      "twitter": Object {
+        "card": "summary",
+        "description": "Compositor JSX static site generator",
+        "image": "kitten.png",
+        "site": "@getcompositor",
+        "title": "Compositor Gen",
+      },
+    },
+    "ext": ".md",
+    "filename": "index.md",
+    "html": "<!DOCTYPE html><meta charset=\\"utf-8\\"><meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1\\"><meta http-equiv=\\"x-ua-compatible\\" content=\\"ie=edge\\"><meta name=\\"generator\\" content=\\"Compositor Gen\\"><title>Home page</title><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@getcompositor'><meta name='twitter:image' content='kitten.png'><meta name='twitter:title' content='Compositor Gen'><meta name='twitter:description' content='Compositor JSX static site generator'><link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Mono'><style>*{box-sizing:border-box}body{margin:0}</style><style data-styled-components=\\"cpFWnQ dHmUli ibxcLF dnFEMg iZjiKO PuZIC bculFG havvyu bPlFyU cVwVcu ecPPBI\\">
+/* sc-component-id: sc-bdVaJa */
+.sc-bdVaJa {} .dHmUli{padding:32px;color:white;background-color:tomato;}.ibxcLF{padding:32px;background-color:black;}.dnFEMg{padding-top:32px;padding-bottom:32px;background-color:white;}.iZjiKO{margin-left:auto;margin-right:auto;padding-left:16px;padding-right:16px;}
+/* sc-component-id: sc-bxivhb */
+.sc-bxivhb {} .havvyu{margin-bottom:16px;margin-top:0px;}
+/* sc-component-id: sc-ifAKCX */
+.sc-ifAKCX {} .bPlFyU{line-height:1.25;margin:0px;margin-bottom:16px;margin-top:32px;}
+/* sc-component-id: sc-EHOje */
+.sc-EHOje {} .cVwVcu{color:blue;}
+/* sc-component-id: sc-gzVnrw */
+.sc-gzVnrw {} .cpFWnQ{font-family:'Roboto Mono',monospace;line-height:1.625;color:#033;}
+/* sc-component-id: sc-htoDjs */
+.sc-htoDjs {} .PuZIC{max-width:768px;margin-left:auto;margin-right:auto;padding-bottom:32px;padding-top:16px;padding-left:16px;padding-right:16px;}
+/* sc-component-id: sc-iwsKbI */
+.sc-iwsKbI {} .bculFG{margin-bottom:16px;margin-top:32px;}
+/* sc-component-id: sc-jzJRlG */
+.sc-jzJRlG {} .ecPPBI{border:0;margin-top:16px;margin-bottom:16px;border-color:rgba(0,0,0,.125);}</style><style data-styled-components=\\"jqvTDw ipLFAD\\">
+/* sc-component-id: sc-kAzzGY */
+.sc-kAzzGY {} .jqvTDw{margin-bottom:16px;margin-top:32px;}
+/* sc-component-id: sc-ckVGcZ */
+.sc-ckVGcZ {} .ipLFAD{border:0;margin-top:16px;margin-bottom:16px;border-color:rgba(0,0,0,.125);}</style><body><div class=\\"sc-gzVnrw cpFWnQ\\"><div class=\\"sc-htoDjs PuZIC\\"><div><h1 class=\\"sc-iwsKbI bculFG\\" id=\\"user-content-no-layout-h1\\"><a href=\\"#user-content-no-layout-h1\\" style=\\"color:inherit;text-decoration:none\\">No Layout (h1)</a></h1>
+<div class=\\"sc-bxivhb havvyu\\">This markdown file doesn&#x27;t specify a layout, so it gets a simple default one.</div>
+<h2 class=\\"sc-ifAKCX bPlFyU\\" id=\\"user-content-h2\\"><a href=\\"#user-content-h2\\" style=\\"color:inherit;text-decoration:none\\">H2</a></h2>
+<div class=\\"sc-bxivhb havvyu\\">Hello there little markdown file.</div>
+<h2 class=\\"sc-ifAKCX bPlFyU\\" id=\\"user-content-h3\\"><a href=\\"#user-content-h3\\" style=\\"color:inherit;text-decoration:none\\">H3</a></h2>
+<div class=\\"sc-bxivhb havvyu\\">How are you doing this fine evening</div>
+<ul>
+<li><a class=\\"sc-EHOje cVwVcu\\" href=\\"hello\\" color=\\"blue\\">Hello</a></li>
+<li><a class=\\"sc-EHOje cVwVcu\\" href=\\"readme\\" color=\\"blue\\">readme</a></li>
+</ul>
+<hr class=\\"sc-jzJRlG ecPPBI\\"/>
+<div class=\\"sc-bxivhb havvyu\\"><a class=\\"sc-EHOje cVwVcu\\" href=\\"https://compositor.io/\\" color=\\"blue\\">Made by Compositor</a>
+|
+MIT License</div></div></div></div></body>",
+    "name": "index",
+    "raw": "---
+title: Home page
+twitter:
+  card: summary
+  site: '@getcompositor'
+  image: 'kitten.png'
+  title: Compositor Gen
+  description: Compositor JSX static site generator
+---
+
+# No Layout (h1)
+
+This markdown file doesn't specify a layout, so it gets a simple default one.
+
+## H2
+
+Hello there little markdown file.
+
+## H3
+
+How are you doing this fine evening
+
+- [Hello](hello)
+- [readme](readme)
+
+---
+
+[Made by Compositor](https://compositor.io/)
+|
+MIT License
+",
+  },
+  Object {
+    "content": "
+# Hello Markdown
+
+This should render with Lab primitives
+
+- [Link](https://compositor.io)
+
+\`code\`
+
+\`\`\`
+preformatted text
+\`\`\`
+",
+    "data": Object {
+      "layout": "layout",
+      "title": "Hello Markdown",
+    },
+    "ext": ".md",
+    "filename": "readme.md",
+    "html": "<!DOCTYPE html><meta charset=\\"utf-8\\"><meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1\\"><meta http-equiv=\\"x-ua-compatible\\" content=\\"ie=edge\\"><meta name=\\"generator\\" content=\\"Compositor Gen\\"><title>Hello Markdown</title><link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto+Mono'><style>*{box-sizing:border-box}body{margin:0}</style><style data-styled-components=\\"cpFWnQ dHmUli ibxcLF dnFEMg iZjiKO PuZIC bculFG havvyu bPlFyU cVwVcu ecPPBI bWArIO bESZpu kCSgPf\\">
+/* sc-component-id: sc-bdVaJa */
+.sc-bdVaJa {} .dHmUli{padding:32px;color:white;background-color:tomato;}.ibxcLF{padding:32px;background-color:black;}.dnFEMg{padding-top:32px;padding-bottom:32px;background-color:white;}.iZjiKO{margin-left:auto;margin-right:auto;padding-left:16px;padding-right:16px;}
+/* sc-component-id: sc-bxivhb */
+.sc-bxivhb {} .havvyu{margin-bottom:16px;margin-top:0px;}
+/* sc-component-id: sc-ifAKCX */
+.sc-ifAKCX {} .bPlFyU{line-height:1.25;margin:0px;margin-bottom:16px;margin-top:32px;}
+/* sc-component-id: sc-EHOje */
+.sc-EHOje {} .cVwVcu{color:blue;}
+/* sc-component-id: sc-gzVnrw */
+.sc-gzVnrw {} .cpFWnQ{font-family:'Roboto Mono',monospace;line-height:1.625;color:#033;}
+/* sc-component-id: sc-htoDjs */
+.sc-htoDjs {} .PuZIC{max-width:768px;margin-left:auto;margin-right:auto;padding-bottom:32px;padding-top:16px;padding-left:16px;padding-right:16px;}
+/* sc-component-id: sc-iwsKbI */
+.sc-iwsKbI {} .bculFG{margin-bottom:16px;margin-top:32px;}
+/* sc-component-id: sc-jzJRlG */
+.sc-jzJRlG {} .ecPPBI{border:0;margin-top:16px;margin-bottom:16px;border-color:rgba(0,0,0,.125);}
+/* sc-component-id: sc-eNQAEJ */
+.sc-eNQAEJ {} .bWArIO{margin-bottom:16px;margin-top:32px;}
+/* sc-component-id: sc-kkGfuU */
+.sc-kkGfuU {} .kCSgPf{font-family:Menlo,monospace;overflow:auto;margin-bottom:16px;margin-top:16px;padding:0px;padding-left:16px;font-size:14px;border-color:rgba(0,0,0,.125);}
+/* sc-component-id: sc-iAyFgw */
+.sc-iAyFgw {} .bESZpu{font-family:Menlo,monospace;font-size:14px;}</style><style data-styled-components=\\"irHpdu gvfqnR blNLxu\\">
+/* sc-component-id: sc-jWBwVP */
+.sc-jWBwVP {} .irHpdu{margin-bottom:16px;margin-top:32px;}
+/* sc-component-id: sc-jAaTju */
+.sc-jAaTju {} .blNLxu{font-family:Menlo,monospace;overflow:auto;margin-bottom:16px;margin-top:16px;padding:0px;padding-left:16px;font-size:14px;border-color:rgba(0,0,0,.125);}
+/* sc-component-id: sc-jDwBTQ */
+.sc-jDwBTQ {} .gvfqnR{font-family:Menlo,monospace;font-size:14px;}</style><body><div class=\\"sc-gzVnrw cpFWnQ\\"><div class=\\"sc-bdVaJa ibxcLF\\"><div class=\\"sc-bdVaJa dnFEMg\\"><div class=\\"sc-bdVaJa iZjiKO\\" style=\\"max-width:768px\\"><h1>Custom Layout</h1><div><h1 class=\\"sc-eNQAEJ bWArIO\\" id=\\"user-content-hello-markdown\\"><a href=\\"#user-content-hello-markdown\\" style=\\"color:inherit;text-decoration:none\\">Hello Markdown</a></h1>
+<div class=\\"sc-bxivhb havvyu\\">This should render with Lab primitives</div>
+<ul>
+<li><a class=\\"sc-EHOje cVwVcu\\" href=\\"https://compositor.io\\" color=\\"blue\\">Link</a></li>
+</ul>
+<div class=\\"sc-bxivhb havvyu\\"><code class=\\"sc-iAyFgw bESZpu\\" font-size=\\"14\\">code</code></div>
+<pre class=\\"sc-kkGfuU kCSgPf\\" font-size=\\"14\\"><code class=\\"sc-iAyFgw bESZpu\\" font-size=\\"14\\">preformatted text
+</code></pre></div></div></div></div></div></body>",
+    "layoutJSX": "<Box bg='black' p={4}>
+  <Box bg='white' py={4}>
+    <Box mx='auto' px={3} style={{ maxWidth: 768 }}>
+      <h1>Custom Layout</h1>
+      {props.children}
+    </Box>
+  </Box>
+</Box>
+",
+    "name": "readme",
+    "raw": "---
+title: Hello Markdown
+layout: layout
+---
+
+# Hello Markdown
+
+This should render with Lab primitives
+
+- [Link](https://compositor.io)
+
+\`code\`
+
+\`\`\`
+preformatted text
+\`\`\`
+",
+  },
+]
+`;
